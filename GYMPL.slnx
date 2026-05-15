@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="GYMBLL/GYMBLL.csproj" />
+  <Project Path="GYMDAL/GYMDAL.csproj" />
+  <Project Path="GYMPL/GYMPL.csproj" />
+</Solution>
