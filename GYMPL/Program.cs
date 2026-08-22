@@ -1,4 +1,6 @@
+using GYMBLL;
 using GYMDAL.Data.Contexts;
+using GYMDAL.Data.DataSeed;
 using GYMDAL.Repositories.Classes;
 using GYMDAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +22,17 @@ namespace GYMPL
              });
 
             builder.Services.AddScoped < IUnitOfWork , UnitOfWork>();
+            builder.Services.AddAutoMapper(x => x.AddProfile(new MappingaProfile));
             
 
             var app = builder.Build();
+
+            #region Seed Data
+
+            using var scope = app.Services.CreateScope();
+            var gymDbContext = scope.ServiceProvider.GetRequiredService<GymDbContext>(); 
+            GymDataSeed.DataSeed(gymDbContext);
+            #endregion
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

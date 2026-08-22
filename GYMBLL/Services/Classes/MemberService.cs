@@ -2,11 +2,6 @@
 using GYMBLL.ViewModels.MemberViewModels;
 using GYMDAL.Entities;
 using GYMDAL.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GYMBLL.Services.Classes
 {
@@ -72,7 +67,7 @@ namespace GYMBLL.Services.Classes
             if (member == null) 
                 return false;
 
-            var activeBooking = _unitOfWork.GetRepository<Booking>().GetAll(x=> x.MemberId==id && x.Session.StartDate > DateOnly.FromDateTime(DateTime.UtcNow));
+            var activeBooking = _unitOfWork.GetRepository<Booking>().GetAll(x => x.MemberId==id && x.Session.StartDate > DateOnly.FromDateTime(DateTime.UtcNow));
             if (activeBooking.Any())
             {
                 return false; 
@@ -159,7 +154,7 @@ namespace GYMBLL.Services.Classes
                 memberViewModel.MembershipStartDate = activeMemberShip.CreatedAt.ToShortDateString();
                 memberViewModel.MembershipEndDate = activeMemberShip.EndDate.ToShortDateString();
 
-
+  
             }
             return memberViewModel;
         }
@@ -167,7 +162,7 @@ namespace GYMBLL.Services.Classes
         public UpdateMemberViewModel GetMemberToUpdate(int id)
         {
             var member = _unitOfWork.GetRepository<Member>().GetById(id);
-            if (member == null)
+            if (member is null)
                 return null;
             var updateMemberViewModel = new UpdateMemberViewModel
             {
@@ -183,7 +178,7 @@ namespace GYMBLL.Services.Classes
               return updateMemberViewModel;
         }
 
-        public bool UpdateMemberViewModel(int id, UpdateMemberViewModel model)
+        public bool UpdateMemberDetails(int id, UpdateMemberViewModel model)
         {
 
 

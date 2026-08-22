@@ -2,11 +2,6 @@
 using GYMBLL.ViewModels.PlanViewModels;
 using GYMDAL.Entities;
 using GYMDAL.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GYMBLL.Services.Classes
 {

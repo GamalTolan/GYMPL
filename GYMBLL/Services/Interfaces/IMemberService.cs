@@ -11,7 +11,7 @@ namespace GYMBLL.Services.Interfaces
     { 
         IEnumerable<MemberViewModel>GetAllMembers();
         bool CreateMember(CreateMemberViewModel createMemberViewModel);
-        bool UpdateMemberViewModel(int id,UpdateMemberViewModel model);
+        bool UpdateMemberDetails(int id,UpdateMemberViewModel model);
         bool RemoveMember(int id);
         MemberViewModel GetMemberDetails(int id);
         HealthRecordViewModel GetHealthRecordDetails(int id);
