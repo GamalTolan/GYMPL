@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GYMDAL.Repositories.Classes
 {
-    internal class SessionRepository : GenericRepository<Session>, ISessionRepository
+    public class SessionRepository : GenericRepository<Session>, ISessionRepository
     {
         private readonly GymDbContext _context;
 

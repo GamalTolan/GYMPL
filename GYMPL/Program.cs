@@ -1,4 +1,6 @@
 using GYMBLL;
+using GYMBLL.Services.Classes;
+using GYMBLL.Services.Interfaces;
 using GYMDAL.Data.Contexts;
 using GYMDAL.Data.DataSeed;
 using GYMDAL.Repositories.Classes;
@@ -22,7 +24,15 @@ namespace GYMPL
              });
 
             builder.Services.AddScoped < IUnitOfWork , UnitOfWork>();
-            builder.Services.AddAutoMapper(x => x.AddProfile(new MappingaProfile));
+            builder.Services.AddScoped < ISessionRepository , SessionRepository>();
+            builder.Services.AddScoped<IAnalyticService, AnalyticService>();
+            builder.Services.AddScoped<IMemberService, MemberService>();
+            builder.Services.AddScoped<ITrainerService, TrainerService>();
+            builder.Services.AddScoped<IPlanService, PlanService>();
+            builder.Services.AddScoped<ISessionService, SessionService>();
+
+
+            builder.Services.AddAutoMapper(x => x.AddProfile(new MappingaProfile()));
             
 
             var app = builder.Build();

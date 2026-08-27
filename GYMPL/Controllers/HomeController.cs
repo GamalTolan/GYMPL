@@ -1,3 +1,4 @@
+using GYMBLL.Services.Interfaces;
 using GYMPL.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -7,15 +8,18 @@ namespace GYMPL.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IAnalyticService _analyticService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger , IAnalyticService analyticService)
         {
             _logger = logger;
+            _analyticService = analyticService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var analytics = _analyticService.GetAnalytics();
+            return View(analytics);
         }
 
         public IActionResult Privacy()
