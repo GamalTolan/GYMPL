@@ -182,11 +182,10 @@ namespace GYMBLL.Services.Classes
         {
 
 
-            if (IsEmailUnique(model.Email))
-            {
-                return false;
-            }
-            if (IsPhoneNumberUnique(model.PhoneNumber))
+            var emalExist = _unitOfWork.GetRepository<Member>().GetAll(m => m.Email == model.Email && m.Id != id);
+            var phoneExist = _unitOfWork.GetRepository<Member>().GetAll(m => m.PhoneNumber == model.PhoneNumber && m.Id != id);
+
+            if (emalExist.Any() || phoneExist.Any())
             {
                 return false;
             }

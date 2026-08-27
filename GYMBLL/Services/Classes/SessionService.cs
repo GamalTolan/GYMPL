@@ -101,7 +101,7 @@ namespace GYMBLL.Services.Classes
         }
         private bool IsSessionTimeValid(DateTime startDate, DateTime endDate)
         {
-            return startDate < endDate && startDate> DateTime.UtcNow;
+            return startDate < endDate && startDate > DateTime.UtcNow;
         }
 
         private bool IsSessionAvilableForUpdate(Session session)
@@ -109,7 +109,7 @@ namespace GYMBLL.Services.Classes
             if (session == null)
                 return false;
 
-            if (session.StartDate <= DateTime.UtcNow || session.EndDate < DateTime.UtcNow)
+            if (session.StartDate <= DateOnly.FromDateTime(DateTime.UtcNow) || session.EndDate < DateOnly.FromDateTime(DateTime.UtcNow))
                 return false;
 
             if (unitOfWork.SessionRepository.GetCountOfBookingSlots(session.Id) > 0)
@@ -123,10 +123,10 @@ namespace GYMBLL.Services.Classes
             if (session == null)
                 return false;
 
-            if (session.EndDate > DateTime.UtcNow)
+            if (session.EndDate > DateOnly.FromDateTime(DateTime.UtcNow))
                 return false;
 
-            if (session.StartDate <= DateTime.UtcNow && session.EndDate > DateTime.UtcNow)
+            if (session.StartDate <= DateOnly.FromDateTime(DateTime.UtcNow) && session.EndDate > DateOnly.FromDateTime(DateTime.UtcNow))
                 return false;
 
             if (unitOfWork.SessionRepository.GetCountOfBookingSlots(session.Id) > 0)
