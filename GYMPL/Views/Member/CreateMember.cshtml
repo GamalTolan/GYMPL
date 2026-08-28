@@ -1,233 +1,356 @@
 ﻿@model GYMBLL.ViewModels.MemberViewModels.CreateMemberViewModel
 
-<!DOCTYPE html>
-<html lang="en">
+@{
+    ViewData["Title"] = "Add Member";
+}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../images/icon.svg" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <!-- ^ Bootstrap 5.3.8 css file -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- ^ Our main css file -->
-    <link rel="stylesheet" href="~/css/style.css" />
-    <title>Power fitness | Home</title>
-</head>
+<div class="container">
+    <main role="main" class="pb-3">
 
-<body>
-    <header>
-        <!-- ^ navbar -->
-        <nav class="navbar navbar-expand-lg bg-white my-3">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="~/images/logo.jpg" alt="" />
+        <header class="mb-4">
+            <h3 class="text-primary-color">Add Member</h3>
+        </header>
+
+        <form asp-controller="Member"
+              asp-action="CreateMember"
+              method="post"
+              enctype="multipart/form-data">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <!-- Step navigation -->
+            <ul class="nav nav-tabs mb-4" id="addMemberTabs" role="tablist">
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active"
+                            id="member-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#member-info"
+                            type="button"
+                            role="tab">
+                        Member Info
+                    </button>
+                </li>
+
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link"
+                            id="health-tab"
+                            data-bs-toggle="tab"
+                            data-bs-target="#health-info"
+                            type="button"
+                            role="tab">
+                        Health Data
+                    </button>
+                </li>
+
+            </ul>
+
+            <div class="tab-content">
+
+                <!-- Member Info -->
+                <div class="tab-pane fade show active"
+                     id="member-info"
+                     role="tabpanel">
+
+                    <div class="section-header mb-3">
+                        <h5 class="text-primary fw-bold">
+                            Personal Information
+                        </h5>
+                        <hr class="mt-2">
+                    </div>
+
+                    <div class="row g-3">
+
+                        <!-- Photo -->
+                        <div class="col-12">
+                            <div class="form-group">
+
+                                <div class="mt-2">
+                                    <img id="photoPreview"
+                                         src="#"
+                                         alt="Photo Preview"
+                                         style="max-width: 200px; display: none;"
+                                         class="img-thumbnail" />
+                                </div>
+
+                                <label asp-for="Photo"
+                                       class="control-label">
+                                    Profile Photo
+                                    <span class="text-danger">*</span>
+                                </label>
+
+                                <input asp-for="Photo"
+                                       type="file"
+                                       class="form-control"
+                                       accept="image/*"
+                                       id="photoInput" />
+
+                                <span asp-validation-for="Photo"
+                                      class="text-danger"></span>
+
+                                <small class="form-text text-muted">
+                                    Max size: 5 MB. Allowed types: JPG, PNG, GIF
+                                </small>
+
+                            </div>
+                        </div>
+
+                        <!-- Name -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Name"
+                                   class="form-label"></label>
+
+                            <input asp-for="Name"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Name"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Email"
+                                   class="form-label"></label>
+
+                            <input asp-for="Email"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Email"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Phone -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="PhoneNumber"
+                                   class="form-label"></label>
+
+                            <input asp-for="PhoneNumber"
+                                   class="form-control" />
+
+                            <span asp-validation-for="PhoneNumber"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Date of Birth -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="DateOfBirth"
+                                   class="form-label"></label>
+
+                            <input asp-for="DateOfBirth"
+                                   class="form-control"
+                                   type="date" />
+
+                            <span asp-validation-for="DateOfBirth"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Gender -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Gender"
+                                   class="form-label"></label>
+
+                            <select asp-for="Gender"
+                                    class="form-select">
+
+                                <option value="">
+                                    -- Select Gender --
+                                </option>
+
+                                <option value="Male">
+                                    Male
+                                </option>
+
+                                <option value="Female">
+                                    Female
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Gender"
+                                  class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <!-- Address -->
+                    <div class="section-header mb-3 mt-4">
+                        <h5 class="text-primary fw-bold">
+                            Address Information
+                        </h5>
+                        <hr class="mt-2">
+                    </div>
+
+                    <div class="row g-3">
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="BuildingNumber"
+                                   class="form-label"></label>
+
+                            <input asp-for="BuildingNumber"
+                                   class="form-control" />
+
+                            <span asp-validation-for="BuildingNumber"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="Street"
+                                   class="form-label"></label>
+
+                            <input asp-for="Street"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Street"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label asp-for="City"
+                                   class="form-label"></label>
+
+                            <input asp-for="City"
+                                   class="form-control" />
+
+                            <span asp-validation-for="City"
+                                  class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Health Data -->
+                <div class="tab-pane fade"
+                     id="health-info"
+                     role="tabpanel">
+
+                    <div class="row g-3">
+
+                        <!-- Height -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="HealthRecord.Hight"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="HealthRecord.Hight"
+                                   class="form-control" />
+
+                            <span asp-validation-for="HealthRecord.Hight"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Weight -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="HealthRecord.Weight"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="HealthRecord.Weight"
+                                   class="form-control" />
+
+                            <span asp-validation-for="HealthRecord.Weight"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Blood Type -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="HealthRecord.BloodType"
+                                   class="form-label">
+                            </label>
+
+                            <select asp-for="HealthRecord.BloodType"
+                                    class="form-select">
+
+                                <option value="">
+                                    Select
+                                </option>
+
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+
+                            </select>
+
+                            <span asp-validation-for="HealthRecord.BloodType"
+                                  class="text-danger"></span>
+                        </div>
+
+                        <!-- Note -->
+                        <div class="col-12 col-md-6">
+                            <label asp-for="HealthRecord.Note"
+                                   class="form-label">
+                            </label>
+
+                            <input asp-for="HealthRecord.Note"
+                                   class="form-control" />
+
+                            <span asp-validation-for="HealthRecord.Note"
+                                  class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Buttons -->
+            <footer class="d-flex justify-content-end gap-3 mt-4">
+
+                <a asp-controller="Member"
+                   asp-action="Index"
+                   class="btn btn-outline-secondary px-4">
+
+                    <i class="bi bi-arrow-left me-2"></i>
+                    Back to List
+
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+
+                <button type="submit"
+                        class="btn btn-primary px-4">
+
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Add
+
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav m-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
-                        <li class="nav-item">
-                        <li class="nav-item">
-                            <a class="nav-link active px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page"
-                                href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Members</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Trainers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Sessions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Plans</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page"
-                                href="#">Memberships</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">
-                                Sessions
-                                Schedule
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+            </footer>
 
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+        </form>
 
-            <header class="mb-4">
-                <h3 class="text-primary-color">Add Member</h3>
-            </header>
-            <form method="post">
+    </main>
+</div>
 
-                <!-- Step navigation -->
-                <ul class="nav nav-tabs mb-4" id="addMemberTabs" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="member-tab" data-bs-toggle="tab"
-                            data-bs-target="#member-info" type="button" role="tab">Member Info</button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="health-tab" data-bs-toggle="tab" data-bs-target="#health-info"
-                            type="button" role="tab">Health Data</button>
-                    </li>
-                </ul>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
 
-                <!-- Tab content -->
-                <div class="tab-content">
-                    <!-- Member Info -->
-                    <div class="tab-pane fade show active" id="member-info" role="tabpanel"
-                        aria-labelledby="member-tab">
-                        <div class="section-header mb-3">
-                            <h5 class="text-primary fw-bold">Personal Information</h5>
-                            <hr class="mt-2">
-                            </div>
-                            <div class="row g-3">
-                                <div class="form-group">
-                                    <!-- Photo Preview -->
-                                    <div class="mt-2">
-                                        <img id="photoPreview" src="#" alt="Photo Preview" style="max-width: 200px; display: none;"
-                                            class="img-thumbnail" />
-                                    </div>
-                                    <label asp-for="Photo" class="control-label">Profile Photo <span class="text-danger">*</span></label>
-                                    <input asp-for="Photo" type="file" class="form-control" accept="image/*" id="photoInput" required />
-                                    <span asp-validation-for="Photo" class="text-danger"></span>
-                                    <small class="form-text text-muted">Max size: 5 MB. Allowed types: JPG, PNG, GIF (Required)</small>
-                                </div>
-                            
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label">Name</label>
-                                <input name="Name" type="text" class="form-control" />
-                            </div>
+    <script>
+        document.getElementById('photoInput')
+            .addEventListener('change', function (e) {
 
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Email</label>
-                                <input name="Email" type="text" class="form-control" />
-                            </div>
+                var file = e.target.files[0];
 
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Phone</label>
-                                <input name="Phone" type="text" class="form-control" />
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">DateOfBirth</label>
-                                <input name="DateOfBirth" class="form-control" type="date" />
-                            </div>
+                if (file) {
 
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Gender</label>
-                                <select name="Gender" class="form-select">
-                                    <option value="">-- Select Gender --</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
+                    var reader = new FileReader();
 
-                        </div>
-                        <div class="section-header mb-3 mt-4">
-                            <h5 class="text-primary fw-bold">Address Information</h5>
-                            <hr class="mt-2">
-                        </div>
-                        <div class="row g-3">
+                    reader.onload = function (e) {
 
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">BuildingNumber</label>
-                                <input name="BuildingNumber" class="form-control" />
-                            </div>
+                        var preview =
+                            document.getElementById('photoPreview');
 
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Street</label>
-                                <input name="Street" class="form-control" />
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">City</label>
-                                <input name="City" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
 
-                    <!-- Health Data -->
-                    <div class="tab-pane fade" id="health-info" role="tabpanel" aria-labelledby="health-tab">
-                        <div class="row g-3">
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Height</label>
-                                <input name="Height" class="form-control" />
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Weight</label>
-                                <input name="Weight" class="form-control" />
-                            </div>
-
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Blood Type</label>
-                                <select name="BloodType" class="form-select">
-                                    <option value="">Select</option>
-                                    <option>A+</option>
-                                    <option>A-</option>
-                                    <option>B+</option>
-                                    <option>B-</option>
-                                    <option>O+</option>
-                                    <option>O-</option>
-                                    <option>AB+</option>
-                                    <option>AB-</option>
-                                </select>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label class="form-label">Note</label>
-                                <input name="Note" class="form-control" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <footer class="d-flex justify-content-end gap-3 mt-4">
-                    <a asp-controller="Member" asp-action="Index" class="btn btn-outline-secondary px-4">
-                        <i class="bi bi-arrow-left me-2"></i> Back to List
-                    </a>
-
-                    <button type="submit" class="btn btn-primary px-4">
-                        <i class="bi bi-plus-circle me-2"></i> Add
-                    </button>
-                </footer>
-
-            </form>
-
-        </main>
-    </div>
-<script src="../js/jquery.validate.min.js"></script>
-<script src="../js/jquery.validate.unobtrusive.min.js"></script>
-  <script>
-      // Preview photo before upload
-      document.getElementById('photoInput').addEventListener('change', function(e) {
-          var file = e.target.files[0];
-          if (file) {
-              var reader = new FileReader();
-              reader.onload = function(e) {
-                  var preview = document.getElementById('photoPreview');
-                  preview.src = e.target.result;
-                  preview.style.display = 'block';
-              }
-              reader.readAsDataURL(file);
-          }
-      });
-  </script>
-</body>
-
-</html>
+                    reader.readAsDataURL(file);
+                }
+            });
+    </script>
+}

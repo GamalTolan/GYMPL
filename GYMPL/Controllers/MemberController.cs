@@ -1,4 +1,5 @@
-﻿using GYMBLL.Services.Interfaces;
+﻿using GYMBLL.Services.Classes;
+using GYMBLL.Services.Interfaces;
 using GYMBLL.ViewModels.MemberViewModels;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,7 +73,7 @@ namespace GYMPL.Controllers
         [HttpPost]
         public IActionResult MemberEdit(int id ,UpdateMemberViewModel model)
         {
-            if (!ModelState.IsValid)
+            f(!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -80,10 +81,14 @@ namespace GYMPL.Controllers
             bool isUpdated = _memberService.UpdateMemberDetails(id, model);
 
             if (isUpdated)
+            {
                 TempData["SuccessMessage"] = "Member updated successfully.";
-            else
-                TempData["ErrorMessage"] = "Failed to update member. Please try again.";
-            return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index));
+            }
+
+            TempData["ErrorMessage"] = "Failed to update member. Please try again.";
+
+            return View(model);
         }
 
         public IActionResult Delete ([FromRoute]int id)

@@ -1,0 +1,532 @@
+﻿
+@using GYMBLL.ViewModels.TrainerViewModels
+@model IEnumerable<TrainerViewModel>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon"
+          href="~/images/icon.svg"
+          type="image/x-icon" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/style.css" />
+
+    <title>Power Fitness | Trainers</title>
+
+</head>
+
+
+<body>
+
+    <!-- ================= Navbar ================= -->
+
+    <header>
+
+        <nav class="navbar navbar-expand-lg bg-white my-3">
+
+            <div class="container">
+
+                <a class="navbar-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <img src="~/images/logo.jpg"
+                         alt="Power Fitness Logo" />
+
+                </a>
+
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+
+                <div class="collapse navbar-collapse"
+                     id="navbarSupportedContent">
+
+                    <ul class="navbar-nav m-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                Home
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Member"
+                               asp-action="Index">
+
+                                Members
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link active px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Trainer"
+                               asp-action="Index">
+
+                                Trainers
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               href="#">
+
+                                Sessions
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               href="#">
+
+                                Plans
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               href="#">
+
+                                Memberships
+
+                            </a>
+
+                        </li>
+
+
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               href="#">
+
+                                Sessions Schedule
+
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <div class="container">
+
+        <main role="main" class="pb-3">
+
+
+            <!-- ================= Alerts ================= -->
+            @if (TempData["SuccessMessage"] is not null)
+            {
+                <div id="SuccessAlert"
+                     class="alert alert-success alert-dismissible fade show"
+                     role="alert">
+
+                    <i class="bi bi-check-circle-fill me-2"></i>
+
+                    @TempData["SuccessMessage"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+            }
+
+
+            @if (TempData["ErrorMessage"] is not null)
+            {
+                <div id="ErrorAlert"
+                     class="alert alert-danger alert-dismissible fade show"
+                     role="alert">
+
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                    @TempData["ErrorMessage"]
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert">
+                    </button>
+
+                </div>
+            }
+
+
+            <!-- ================= Trainers ================= -->
+
+            <div class="container">
+
+
+                <!-- Header -->
+
+                <header class="d-flex justify-content-between mt-5 mb-4 align-items-center">
+
+                    <div>
+
+                        <h2 class="text-primary-color mb-0">
+                            Our Trainers
+                        </h2>
+
+                        <p class="text-muted">
+                            Professional fitness instructors
+                        </p>
+
+                    </div>
+
+
+                    <a asp-controller="Trainer"
+                       asp-action="CreateTrainer"
+                       class="btn btn-fill fw-medium rounded-pill px-4 py-3">
+
+                        <i class="bi bi-plus-lg me-2"></i>
+
+                        Add Trainer
+
+                    </a>
+
+                </header>
+
+
+                @if (Model is not null && Model.Any())
+                {
+
+                    <!-- ================= Trainers Table ================= -->
+
+                    <div class="table-responsive"
+                         style="overflow: visible;">
+
+                        <table class="table table-borderless">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        <span>Name</span>
+                                    </th>
+
+                                    <th>
+                                        <span>Email</span>
+                                    </th>
+
+                                    <th>
+                                        <span>Phone</span>
+                                    </th>
+
+                                    <th>
+                                        <span>Specialization</span>
+                                    </th>
+
+                                    <th>
+                                        <span>Action</span>
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                @foreach (var trainer in Model)
+                                {
+
+                                    <tr>
+
+                                        <!-- Name -->
+
+                                        <td>
+
+                                            <span class="fw-bold">
+                                                @trainer.Name
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- Email -->
+
+                                        <td>
+
+                                            <span>
+                                                @trainer.Email
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- Phone -->
+
+                                        <td>
+
+                                            <span>
+                                                @trainer.PhoneNumber
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- Specialization -->
+
+                                        <td>
+
+                                            <span class="badge bg-primary-color">
+
+                                                @trainer.Specialities
+
+                                            </span>
+
+                                        </td>
+
+
+                                        <!-- Actions -->
+
+                                        <td class="action position-relative">
+
+                                            <div class="dropdown">
+
+
+                                                <button class="btn btn-link p-0 border-0"
+                                                        type="button"
+                                                        id="dropdownMenuButton-@trainer.Id"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false">
+
+                                                    <img src="~/images/action dots.jpg"
+                                                         alt="Action" />
+
+                                                </button>
+
+
+                                                <ul class="dropdown-menu dropdown-menu-start"
+                                                    aria-labelledby="dropdownMenuButton-@trainer.Id">
+
+
+                                                    <!-- Details -->
+
+                                                    <li>
+
+                                                        <a asp-controller="Trainer"
+                                                           asp-action="TrainerDetails"
+                                                           asp-route-id="@trainer.Id"
+                                                           class="dropdown-item d-flex align-items-center gap-3">
+
+                                                            <i class="bi bi-eye text-primary-color"></i>
+
+                                                            <span>
+                                                                View Details
+                                                            </span>
+
+                                                        </a>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <hr class="dropdown-divider">
+
+                                                    </li>
+
+
+                                                    <!-- Edit -->
+
+                                                    <li>
+
+                                                        <a asp-controller="Trainer"
+                                                           asp-action="TrainerEdit"
+                                                           asp-route-id="@trainer.Id"
+                                                           class="dropdown-item d-flex align-items-center gap-3">
+
+                                                            <i class="bi bi-pencil text-primary-color"></i>
+
+                                                            <span>
+                                                                Edit Details
+                                                            </span>
+
+                                                        </a>
+
+                                                    </li>
+
+
+                                                    <li>
+
+                                                        <hr class="dropdown-divider">
+
+                                                    </li>
+
+
+                                                    <!-- Delete -->
+
+                                                    <li>
+
+                                                        <a asp-controller="Trainer"
+                                                           asp-action="Delete"
+                                                           asp-route-id="@trainer.Id"
+                                                           class="dropdown-item d-flex align-items-center gap-3 text-danger">
+
+                                                            <i class="bi bi-trash"></i>
+
+                                                            <span>
+                                                                Delete
+                                                            </span>
+
+                                                        </a>
+
+                                                    </li>
+
+                                                </ul>
+
+                                            </div>
+
+                                        </td>
+
+                                    </tr>
+
+                                }
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                }
+                else
+                {
+
+                    <!-- ================= Empty State ================= -->
+
+                    <div class="text-center py-5">
+
+                        <i class="bi bi-person-workspace display-1 text-muted"></i>
+
+                        <h4 class="mt-3 text-muted">
+                            No Trainers Available
+                        </h4>
+
+                        <p class="text-muted">
+                            Add your first trainer to get started
+                        </p>
+
+                        <a asp-controller="Trainer"
+                           asp-action="CreateTrainer"
+                           class="btn btn-fill mt-2">
+
+                            <i class="bi bi-plus-lg me-2"></i>
+
+                            Add Trainer
+
+                        </a>
+
+                    </div>
+
+                }
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- ================= Scripts ================= -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+
+    <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+
+                const alerts = document.querySelectorAll(".alert");
+
+                alerts.forEach(function (alertBox) {
+
+                    setTimeout(function () {
+
+                        alertBox.style.transition = "opacity 0.5s ease";
+
+                        alertBox.style.opacity = "0";
+
+                        setTimeout(function () {
+
+                            alertBox.remove();
+
+                        }, 500);
+
+                    }, 1500);
+
+                });
+
+            });
+
+    </script>
+
+</body>
+
+</html>
+

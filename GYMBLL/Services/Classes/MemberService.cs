@@ -29,7 +29,7 @@ namespace GYMBLL.Services.Classes
                 var member = new Member
                 {
                     Name = createMemberViewModel.Name,
-                    Photo = createMemberViewModel.Photo,
+                    Photo = createMemberViewModel.Photo?.ToString(),
                     Email = createMemberViewModel.Email,
                     PhoneNumber = createMemberViewModel.PhoneNumber,
                     Gender = createMemberViewModel.Gender,
@@ -166,6 +166,7 @@ namespace GYMBLL.Services.Classes
                 return null;
             var updateMemberViewModel = new UpdateMemberViewModel
             {
+                Id= member.Id,
                 Name = member.Name,
                 Photo = member.Photo,
                 Email = member.Email,

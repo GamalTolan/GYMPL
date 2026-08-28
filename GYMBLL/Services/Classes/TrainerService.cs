@@ -22,14 +22,8 @@ namespace GYMBLL.Services.Classes
 
         public bool CreateTrainer(CreateTrainerViewModel createTrainerViewModel)
         {
-            if (IsEmailUnique(createTrainerViewModel.Email))
-            {
+            if (IsEmailExists(createTrainerViewModel.Email) || IsPhoneExists(createTrainerViewModel.PhoneNumber))
                 return false;
-            }
-            if (IsPhoneNumberUnique(createTrainerViewModel.PhoneNumber))
-            {
-                return false;
-            }
 
             var trainerEntity = new Trainer
             {
@@ -89,10 +83,10 @@ namespace GYMBLL.Services.Classes
         public bool RemoveTrainer(int id)
         {
             var trainer = _unitOfWork.GetRepository<Trainer>().GetById(id);
-            if (trainer == null) 
+            if (trainer == null || HasActiveSessions(id)) 
                 return false;
             var validSession = _unitOfWork.GetRepository<Session>().GetAll(s => s.TrainerId == id&& s.EndDate > DateOnly.FromDateTime(DateTime.UtcNow));
-            if (validSession != null && validSession.Any())
+            if (validSession is not null && validSession.Any())
             {
                 return false;
             }
@@ -109,12 +103,15 @@ namespace GYMBLL.Services.Classes
             }
             var updateTrainerModel = new UpdateTrainerViewModel
             {
+                Id = trainer.Id,
                 Name = trainer.Name,
                 Email = trainer.Email,
                 PhoneNumber = trainer.PhoneNumber,
                 BuildingNumber = trainer.Address.BuildingNumber,
                 Street = trainer.Address.Street,
                 City = trainer.Address.City,
+                DateOfBirth = trainer.DateOfBirth,
+                Gender = trainer.Gender,
                 Specialization = trainer.Specialities
 
             };
@@ -128,9 +125,11 @@ namespace GYMBLL.Services.Classes
             {
                 return false;
             }
-            if (IsEmailUnique(updateTrainerModel.Email))
-                return false;
-            if (IsPhoneNumberUnique(updateTrainerModel.PhoneNumber))
+           var existingTrainerWithEmail = _unitOfWork.GetRepository<Trainer>()
+                .GetAll(t => t.Email == updateTrainerModel.Email && t.Id != id);
+           var existingTrainerWithPhone = _unitOfWork.GetRepository<Trainer>()
+                .GetAll(t => t.PhoneNumber == updateTrainerModel.PhoneNumber && t.Id != id);
+            if (existingTrainerWithEmail.Any() || existingTrainerWithPhone.Any())
                 return false;
 
             trainer.Name = updateTrainerModel.Name;
@@ -149,19 +148,18 @@ namespace GYMBLL.Services.Classes
 
         #region HelperMethods
 
-        private bool IsEmailUnique(string email)
+        private bool IsEmailExists(string email)
         {
-            var existingTrainer = _unitOfWork.GetRepository<Trainer>().GetAll(t=>t.Email==email);
-
-            return existingTrainer is not null && existingTrainer.Any(); ;
+            var existing = _unitOfWork.GetRepository<Member>().GetAll(
+                m => m.Email == email).Any();
+            return existing;
         }
-        
 
-        private bool IsPhoneNumberUnique(string phoneNumber)
+        private bool IsPhoneExists(string phone)
         {
-            var existingTrainer = _unitOfWork.GetRepository<Trainer>().GetAll(t => t.PhoneNumber == phoneNumber);
-
-            return   existingTrainer is not null && existingTrainer.Any(); ;
+            var existing = _unitOfWork.GetRepository<Member>().GetAll(
+                m => m.PhoneNumber == phone).Any();
+            return existing;
         }
         private string AddressFormat(Address address)
         {
@@ -170,7 +168,12 @@ namespace GYMBLL.Services.Classes
             return $"{address.BuildingNumber}, {address.Street}, {address.City}";
         }
 
-        
+        private bool HasActiveSessions(int Id)
+        {
+            var activeSessions = _unitOfWork.GetRepository<Session>().GetAll(
+               s => s.TrainerId == Id && s.StartDate > DateOnly.FromDateTime(DateTime.Now)).Any();
+            return activeSessions;
+        }
 
 
         #endregion
