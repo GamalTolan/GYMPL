@@ -1,4 +1,5 @@
-﻿@model GYMBLL.ViewModels.MemberViewModels.UpdateMemberViewModel
+﻿
+@model GYMBLL.ViewModels.MemberViewModels.UpdateMemberViewModel
 
 <!DOCTYPE html>
 <html lang="en">
@@ -6,148 +7,435 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../images/icon.svg" type="image/x-icon" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
-    <!-- ^ Bootstrap 5.3.8 css file -->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <!-- ^ Our main css file -->
-    <link rel="stylesheet" href="~/css/style.css" />
-    <title>Power fitness | Home</title>
+
+    <link rel="shortcut icon"
+          href="~/images/icon.svg"
+          type="image/x-icon" />
+
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com" />
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin />
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/style.css" />
+
+    <title>Power Fitness | Edit Member</title>
 </head>
 
 <body>
+
     <header>
-        <!-- ^ navbar -->
+
+        <!-- Navbar -->
         <nav class="navbar navbar-expand-lg bg-white my-3">
+
             <div class="container">
-                <a class="navbar-brand" href="#">
-                    <img src="~/images/logo.jpg" alt="" />
+
+                <!-- Logo -->
+                <a class="navbar-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <img src="~/images/logo.jpg"
+                         alt="Power Fitness Logo" />
+
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+
+
+                <!-- Navbar Toggle -->
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
                     <span class="navbar-toggler-icon"></span>
+
                 </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- Navbar Content -->
+                <div class="collapse navbar-collapse"
+                     id="navbarSupportedContent">
+
                     <ul class="navbar-nav m-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
+
+                        <!-- Home -->
                         <li class="nav-item">
-                        <li class="nav-item">
-                            <a class="nav-link active px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page"
-                                href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Members</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Trainers</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Sessions</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">Plans</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page"
-                                href="#">Memberships</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link  px-3 py-2 mx-2 fw-bolder fs-5" aria-current="page" href="#">
-                                Sessions
-                                Schedule
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Home"
+                               asp-action="Index">
+
+                                Home
+
                             </a>
+
                         </li>
+
+
+                        <!-- Members -->
+                        <li class="nav-item">
+
+                            <a class="nav-link active px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Member"
+                               asp-action="Index">
+
+                                Members
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- Trainers -->
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Trainer"
+                               asp-action="Index">
+
+                                Trainers
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- Sessions -->
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Session"
+                               asp-action="Index">
+
+                                Sessions
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- Plans -->
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Plan"
+                               asp-action="Index">
+
+                                Plans
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- Memberships -->
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="Membership"
+                               asp-action="Index">
+
+                                Memberships
+
+                            </a>
+
+                        </li>
+
+
+                        <!-- Sessions Schedule -->
+                        <li class="nav-item">
+
+                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
+                               asp-controller="SessionSchedule"
+                               asp-action="Index">
+
+                                Sessions Schedule
+
+                            </a>
+
+                        </li>
+
                     </ul>
+
                 </div>
+
             </div>
+
         </nav>
 
     </header>
+
+
     <div class="container">
+
         <main role="main" class="pb-3">
 
-
             <div class="container mt-5">
+
                 <div class="row justify-content-center">
+
                     <div class="col-md-6">
+
                         <div class="card card-details border-0 p-2 shadow">
+
                             <div class="card-body text-center">
+
+
+                                <!-- Member Photo -->
                                 <div class="text-center mt-3">
-                                    <img src="~/images/@Model.Photo" alt="@Model.Name" class="rounded-circle"
-                                        style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #fff; margin-top: -60px;" />
+
+                                    @if (!string.IsNullOrEmpty(Model.Photo))
+                                    {
+                                        <img src="~/images/@Model.Photo"
+                                             alt="@Model.Name"
+                                             class="rounded-circle"
+                                             style="width: 120px;
+                                                    height: 120px;
+                                                    object-fit: cover;
+                                                    border: 3px solid #fff;
+                                                    margin-top: -60px;" />
+                                    }
+                                    else
+                                    {
+                                        <img src="~/images/User.jpg"
+                                             alt="Default Avatar"
+                                             class="rounded-circle"
+                                             style="width: 120px;
+                                                    height: 120px;
+                                                    object-fit: cover;
+                                                    border: 3px solid #fff;
+                                                    margin-top: -60px;" />
+                                    }
+
                                 </div>
+
+
                                 <div class="card-body text-center">
-                                    <h2 class="mb-1 text-primary-color">Name</h2>
-                                    <form method="post">
+
+                                    <h2 class="mb-1 text-primary-color">
+                                        Edit Member
+                                    </h2>
+
+
+                                    <!-- Edit Form -->
+                                    <form asp-controller="Member"
+                                          asp-action="MemberEdit"
+                                          method="post">
+
+
+                                        <!-- Member Id -->
+                                        <input asp-for="Id"
+                                               type="hidden" />
+
+
                                         <div class="mt-4 text-start">
+
                                             <div class="row g-3">
+
+
+                                                <!-- Name -->
                                                 <div class="col-12">
+
                                                     <div class="p-3 bg-light rounded">
-                                                        <small class="text-muted d-block mb-1">Email</small>
-                                                        <input asp-for="Email" class="form-control" />
-                                                        <span asp-validation-for="Email" class="text-danger"></span>
+
+                                                        <label asp-for="Name"
+                                                               class="form-label">
+                                                            Name
+                                                        </label>
+
+                                                        <input asp-for="Name"
+                                                               class="form-control"
+                                                               readonly />
+
+                                                        <span asp-validation-for="Name"
+                                                              class="text-danger">
+                                                        </span>
+
                                                     </div>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="p-3 bg-light rounded">
-                                                        <small class="text-muted d-block mb-1">Phone</small>
-                                                        <input asp-for="PhoneNumber" class="form-control" />
-                                                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                                                    </div>
+
                                                 </div>
 
-                                                <div class="col-6">
+
+                                                <!-- Email -->
+                                                <div class="col-12">
+
                                                     <div class="p-3 bg-light rounded">
-                                                        <small class="text-muted d-block mb-1">Building Number</small>
-                                                        <input asp-for="BuildingNumber" class="form-control" />
+
+                                                        <label asp-for="Email"
+                                                               class="form-label">
+                                                            Email
+                                                        </label>
+
+                                                        <input asp-for="Email"
+                                                               class="form-control" />
+
+                                                        <span asp-validation-for="Email"
+                                                              class="text-danger">
+                                                        </span>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!-- Phone -->
+                                                <div class="col-6">
+
+                                                    <div class="p-3 bg-light rounded">
+
+                                                        <label asp-for="PhoneNumber"
+                                                               class="form-label">
+                                                            Phone
+                                                        </label>
+
+                                                        <input asp-for="PhoneNumber"
+                                                               class="form-control" />
+
+                                                        <span asp-validation-for="PhoneNumber"
+                                                              class="text-danger">
+                                                        </span>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <!-- Building Number -->
+                                                <div class="col-6">
+
+                                                    <div class="p-3 bg-light rounded">
+
+                                                        <label asp-for="BuildingNumber"
+                                                               class="form-label">
+                                                            Building Number
+                                                        </label>
+
+                                                        <input asp-for="BuildingNumber"
+                                                               class="form-control" />
+
                                                         <span asp-validation-for="BuildingNumber"
-                                                            class="text-danger"></span>
+                                                              class="text-danger">
+                                                        </span>
+
                                                     </div>
+
                                                 </div>
+
+
+                                                <!-- City -->
                                                 <div class="col-6">
+
                                                     <div class="p-3 bg-light rounded">
-                                                        <small class="text-muted d-block mb-1">City</small>
-                                                        <input asp-for="City" class="form-control" />
-                                                        <span asp-validation-for="City" class="text-danger"></span>
+
+                                                        <label asp-for="City"
+                                                               class="form-label">
+                                                            City
+                                                        </label>
+
+                                                        <input asp-for="City"
+                                                               class="form-control" />
+
+                                                        <span asp-validation-for="City"
+                                                              class="text-danger">
+                                                        </span>
+
                                                     </div>
+
                                                 </div>
+
+
+                                                <!-- Street -->
                                                 <div class="col-6">
+
                                                     <div class="p-3 bg-light rounded">
-                                                        <small class="text-muted d-block mb-1">Street</small>
-                                                        <input asp-for="Street" class="form-control" />
-                                                        <span asp-validation-for="Street" class="text-danger"></span>
+
+                                                        <label asp-for="Street"
+                                                               class="form-label">
+                                                            Street
+                                                        </label>
+
+                                                        <input asp-for="Street"
+                                                               class="form-control" />
+
+                                                        <span asp-validation-for="Street"
+                                                              class="text-danger">
+                                                        </span>
+
                                                     </div>
+
                                                 </div>
+
                                             </div>
+
                                         </div>
 
 
-                                        <div class="d-flex justify-content-between gap-2 mt-3 px-3 pb-3">
-                                            <a asp-controller="Member" asp-action="Index" class="btn btn-fill ">Back to
-                                                List</a>
-                                            <button type="submit" class="btn btn-fill ">Done</button>
+                                        <!-- Buttons -->
+                                        <div class="d-flex justify-content-between gap-2 mt-4 px-3 pb-3">
+
+                                            <!-- Back -->
+                                            <a asp-controller="Member"
+                                               asp-action="Index"
+                                               class="btn btn-fill">
+
+                                                Back to List
+
+                                            </a>
+
+
+                                            <!-- Submit -->
+                                            <button type="submit"
+                                                    class="btn btn-fill">
+
+                                                Done
+
+                                            </button>
+
                                         </div>
+
                                     </form>
+
                                 </div>
+
                             </div>
 
                         </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-
-
         </main>
+
     </div>
-    <script src="../js/jquery.validate.min.js"></script>
-    <script src="../js/jquery.validate.unobtrusive.min.js"></script>
+
+
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/jquery.validate.min.js"></script>
+
+    <script src="~/js/jquery.validate.unobtrusive.min.js"></script>
+
 </body>
 
 </html>
+

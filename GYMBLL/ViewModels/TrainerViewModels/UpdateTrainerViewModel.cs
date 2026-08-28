@@ -10,6 +10,7 @@ namespace GYMBLL.ViewModels.TrainerViewModels
 {
     public class UpdateTrainerViewModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Name is Required")]
         [RegularExpression(@"^[a-zA-Z\s]+$", ErrorMessage = "Name can only contain letters and spaces.")]
         public string Name { get; set; } = null!;

@@ -118,6 +118,7 @@ namespace GYMBLL.Services.Classes
             return true;
 
         }
+
         private bool IsSessionAvilableForDelete(Session session)
         {
             if (session == null)
