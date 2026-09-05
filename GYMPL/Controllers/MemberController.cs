@@ -45,16 +45,18 @@ namespace GYMPL.Controllers
         [HttpPost]
         public IActionResult CreateMember(CreateMemberViewModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("DataMissed", "Please fill in all required fields.");
-                return RedirectToAction(nameof(CreateMember) , model);
+                return View(model);
             }
+
             bool isCreated = _memberService.CreateMember(model);
+
             if (isCreated)
                 TempData["SuccessMessage"] = "Member created successfully.";
             else
                 TempData["ErrorMessage"] = "Failed to create member. Please try again.";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -73,7 +75,7 @@ namespace GYMPL.Controllers
         [HttpPost]
         public IActionResult MemberEdit(int id ,UpdateMemberViewModel model)
         {
-            f(!ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
                 return View(model);
             }

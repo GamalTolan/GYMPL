@@ -111,7 +111,7 @@ namespace GYMPL.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteTrainer([FromForm] int id)
+        public IActionResult DeleteTrainer([FromRoute] int id)
         {
 
             bool isDeleted = _trainerService.RemoveTrainer(id);

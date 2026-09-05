@@ -75,6 +75,7 @@ namespace GYMBLL.Services.Classes
                 Email = trainer.Email,
                 PhoneNumber = trainer.PhoneNumber,
                 Address = AddressFormat(trainer.Address),
+                Gender = trainer.Gender.ToString(),
                 Specialities = trainer.Specialities.ToString(),
                 DateOfBirth = trainer.DateOfBirth.ToString("yyyy-MM-dd"),
             };

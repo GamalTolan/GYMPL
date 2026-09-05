@@ -1,244 +1,63 @@
-﻿
+﻿```cshtml
 @model GYMBLL.ViewModels.MemberViewModels.MemberViewModel
 
-<!DOCTYPE html>
-<html lang="en">
+@{
+    ViewData["Title"] = "Delete Member";
+}
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<div class="container mt-5">
 
-    <link rel="shortcut icon" href="~/images/icon.svg" type="image/x-icon" />
+    <div class="row justify-content-center">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <div class="col-md-6">
 
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400..800&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
-          rel="stylesheet" />
+            <div class="card p-5 shadow text-center">
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" />
+                <p class="fs-3 text-primary-color mb-4">
+                    Are you sure you want to delete this member?
+                </p>
 
-    <link rel="stylesheet"
-          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+                <div class="alert alert-warning text-start" role="alert">
 
-    <link rel="stylesheet"
-          href="~/css/style.css" />
+                    <strong>Warning!</strong>
 
-    <title>Power Fitness | Delete Member</title>
-</head>
-
-<body>
-
-    <header>
-
-        <nav class="navbar navbar-expand-lg bg-white my-3">
-
-            <div class="container">
-
-                <a class="navbar-brand"
-                   asp-controller="Home"
-                   asp-action="Index">
-
-                    <img src="~/images/logo.jpg"
-                         alt="Power Fitness Logo" />
-
-                </a>
-
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-
-                    <span class="navbar-toggler-icon"></span>
-
-                </button>
-
-                <div class="collapse navbar-collapse"
-                     id="navbarSupportedContent">
-
-                    <ul class="navbar-nav m-auto mb-2 mb-lg-0 mt-3 mt-lg-0">
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Home"
-                               asp-action="Index">
-
-                                Home
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link active px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Member"
-                               asp-action="Index">
-
-                                Members
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Trainer"
-                               asp-action="Index">
-
-                                Trainers
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Session"
-                               asp-action="Index">
-
-                                Sessions
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Plan"
-                               asp-action="Index">
-
-                                Plans
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="Membership"
-                               asp-action="Index">
-
-                                Memberships
-
-                            </a>
-
-                        </li>
-
-                        <li class="nav-item">
-
-                            <a class="nav-link px-3 py-2 mx-2 fw-bolder fs-5"
-                               asp-controller="SessionSchedule"
-                               asp-action="Index">
-
-                                Sessions Schedule
-
-                            </a>
-
-                        </li>
-
-                    </ul>
+                    This action cannot be undone.
+                    All member data will be permanently deleted.
 
                 </div>
 
-            </div>
+                <form asp-controller="Member"
+                      asp-action="DeleteConfirm"
+                      method="post"
+                      class="mt-4">
 
-        </nav>
+                    <!-- Member Id -->
+                    <input asp-for="Id" type="hidden" />
 
-    </header>
+                    <div class="buttons d-flex justify-content-between gap-3">
 
+                        <!-- NO -->
+                        <a asp-controller="Member"
+                           asp-action="Index"
+                           class="btn-outline flex-fill">
+                            NO
+                        </a>
 
-    <div class="container">
-
-        <main role="main" class="pb-3">
-
-            <div class="container mt-5">
-
-                <div class="row justify-content-center">
-
-                    <div class="col-md-6">
-
-                        <div class="card p-5 shadow text-center">
-
-                            <p class="fs-3 text-primary-color mb-4">
-
-                                Are you sure you want to delete this member?
-
-                            </p>
-
-
-                            <div class="alert alert-warning text-start"
-                                 role="alert">
-
-                                <strong>Warning!</strong>
-
-                                This action cannot be undone.
-                                All member data will be permanently deleted.
-
-                            </div>
-
-
-                            <form asp-controller="Member"
-                                  asp-action="DeleteConfirm"
-                                  method="post"
-                                  class="mt-4">
-
-                                <!-- Member Id -->
-                                <input type="hidden"
-                                       name="id"
-                                       value="@Model.Id" />
-
-
-                                <div class="buttons d-flex justify-content-between gap-3">
-
-
-                                    <!-- NO -->
-                                    <a asp-controller="Member"
-                                       asp-action="Index"
-                                       class="btn-outline flex-fill">
-
-                                        NO
-
-                                    </a>
-
-
-                                    <!-- YES -->
-                                    <button type="submit"
-                                            class="btn-fill flex-fill">
-
-                                        Yes
-
-                                    </button>
-
-                                </div>
-
-                            </form>
-
-                        </div>
+                        <!-- YES -->
+                        <button type="submit"
+                                class="btn-fill flex-fill">
+                            Yes
+                        </button>
 
                     </div>
 
-                </div>
+                </form>
 
             </div>
 
-        </main>
+        </div>
 
     </div>
 
-
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-</body>
-
-</html>
-
+</div>
+```
