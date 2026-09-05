@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using GYMBLL.Services.Interfaces;
+using GYMBLL.ViewModels.SessionViewModels;
 using GYMDAL.Entities;
 using GYMDAL.Repositories.Interfaces;
-using GymManagementBLL.ViewModels.SessionViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +67,10 @@ namespace GYMBLL.Services.Classes
             if (!IsSessionTimeValid(updateSessionViewModel.StartDate, updateSessionViewModel.EndDate))
                 return false;
 
-            mapper.Map<Session>(updateSessionViewModel);
+            session.Description = updateSessionViewModel.Description;
+            session.TrainerId = updateSessionViewModel.TrainerId;
+            session.StartDate = DateOnly.FromDateTime(updateSessionViewModel.StartDate);
+            session.EndDate = DateOnly.FromDateTime(updateSessionViewModel.EndDate);
             session.UpdatedAt = DateTime.UtcNow;
             unitOfWork.GetRepository<Session>().Update(session);
             return unitOfWork.SaveChanges() > 0;
@@ -89,6 +92,22 @@ namespace GYMBLL.Services.Classes
 
             return mapper.Map<UpdateSessionViewModel>(session);
         }
+        public IEnumerable<CategorySelectViewModel> GetCategoriesDropdown()
+        {
+            var categories = unitOfWork.GetRepository<Category>().GetAll();
+            if (categories == null || !categories.Any())
+                return [];
+            return mapper.Map<IEnumerable<CategorySelectViewModel>>(categories);
+        }
+
+        public IEnumerable<TrainerSelectViewModel> GetTrainersDropdown()
+        {
+           var trainers = unitOfWork.GetRepository<Trainer>().GetAll();
+            if (trainers == null || !trainers.Any())
+                return [];
+            return mapper.Map<IEnumerable<TrainerSelectViewModel>>(trainers);
+        }
+
         #region HelperMethods
 
         private bool IsCatigoryExists(int categoryId)
@@ -138,6 +157,7 @@ namespace GYMBLL.Services.Classes
         }
 
         
+
 
 
 

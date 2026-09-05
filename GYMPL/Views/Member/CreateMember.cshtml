@@ -1,356 +1,297 @@
-﻿@model GYMBLL.ViewModels.MemberViewModels.CreateMemberViewModel
+﻿
+@model GYMBLL.ViewModels.MemberViewModels.CreateMemberViewModel
 
 @{
-    ViewData["Title"] = "Add Member";
+    ViewData["Title"] = "Create Member";
 }
 
-<div class="container">
-    <main role="main" class="pb-3">
+<div class="container mt-4">
 
-        <header class="mb-4">
-            <h3 class="text-primary-color">Add Member</h3>
-        </header>
+    <header class="mb-4">
+        <h3 class="text-primary-color">Add New Member</h3>
+        <p class="text-muted">Create a new member profile</p>
+    </header>
 
-        <form asp-controller="Member"
-              asp-action="CreateMember"
-              method="post"
-              enctype="multipart/form-data">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
 
-            <div asp-validation-summary="ModelOnly"
-                 class="text-danger mb-3"></div>
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
 
-            <!-- Step navigation -->
-            <ul class="nav nav-tabs mb-4" id="addMemberTabs" role="tablist">
+                    <form asp-action="CreateMember" method="post">
 
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active"
-                            id="member-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#member-info"
-                            type="button"
-                            role="tab">
-                        Member Info
-                    </button>
-                </li>
+                        <div asp-validation-summary="ModelOnly"
+                             class="alert alert-danger">
+                        </div>
 
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link"
-                            id="health-tab"
-                            data-bs-toggle="tab"
-                            data-bs-target="#health-info"
-                            type="button"
-                            role="tab">
-                        Health Data
-                    </button>
-                </li>
+                        <!-- ================= Personal Information ================= -->
 
-            </ul>
+                        <div class="section-header mb-3">
+                            <h5 class="text-primary fw-bold">
+                                Personal Information
+                            </h5>
+                            <hr class="mt-2">
+                        </div>
 
-            <div class="tab-content">
+                        <div class="row g-3 mb-4">
 
-                <!-- Member Info -->
-                <div class="tab-pane fade show active"
-                     id="member-info"
-                     role="tabpanel">
-
-                    <div class="section-header mb-3">
-                        <h5 class="text-primary fw-bold">
-                            Personal Information
-                        </h5>
-                        <hr class="mt-2">
-                    </div>
-
-                    <div class="row g-3">
-
-                        <!-- Photo -->
-                        <div class="col-12">
-                            <div class="form-group">
-
-                                <div class="mt-2">
-                                    <img id="photoPreview"
-                                         src="#"
-                                         alt="Photo Preview"
-                                         style="max-width: 200px; display: none;"
-                                         class="img-thumbnail" />
-                                </div>
-
-                                <label asp-for="Photo"
-                                       class="control-label">
-                                    Profile Photo
-                                    <span class="text-danger">*</span>
+                            <!-- Name -->
+                            <div class="col-md-6">
+                                <label asp-for="Name" class="form-label">
+                                    Name
                                 </label>
 
-                                <input asp-for="Photo"
-                                       type="file"
+                                <input asp-for="Name"
                                        class="form-control"
-                                       accept="image/*"
-                                       id="photoInput" />
+                                       placeholder="Enter member name" />
 
-                                <span asp-validation-for="Photo"
-                                      class="text-danger"></span>
-
-                                <small class="form-text text-muted">
-                                    Max size: 5 MB. Allowed types: JPG, PNG, GIF
-                                </small>
-
+                                <span asp-validation-for="Name"
+                                      class="text-danger">
+                                </span>
                             </div>
+
+                            <!-- Email -->
+                            <div class="col-md-6">
+                                <label asp-for="Email" class="form-label">
+                                    Email
+                                </label>
+
+                                <input asp-for="Email"
+                                       class="form-control"
+                                       placeholder="example@gmail.com" />
+
+                                <span asp-validation-for="Email"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="col-md-6">
+                                <label asp-for="PhoneNumber" class="form-label">
+                                    Phone Number
+                                </label>
+
+                                <input asp-for="PhoneNumber"
+                                       class="form-control"
+                                       placeholder="01xxxxxxxxx" />
+
+                                <span asp-validation-for="PhoneNumber"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Date Of Birth -->
+                            <div class="col-md-6">
+                                <label asp-for="DateOfBirth" class="form-label">
+                                    Date Of Birth
+                                </label>
+
+                                <input asp-for="DateOfBirth"
+                                       type="date"
+                                       class="form-control" />
+
+                                <span asp-validation-for="DateOfBirth"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Gender -->
+                            <div class="col-md-6">
+                                <label asp-for="Gender" class="form-label">
+                                    Gender
+                                </label>
+
+                                <select asp-for="Gender"
+                                        class="form-select">
+                                    <option value="">-- Select Gender --</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                </select>
+
+                                <span asp-validation-for="Gender"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
                         </div>
 
-                        <!-- Name -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Name"
-                                   class="form-label"></label>
 
-                            <input asp-for="Name"
-                                   class="form-control" />
+                        <!-- ================= Address Information ================= -->
 
-                            <span asp-validation-for="Name"
-                                  class="text-danger"></span>
+                        <div class="section-header mb-3">
+                            <h5 class="text-primary fw-bold">
+                                Address Information
+                            </h5>
+                            <hr class="mt-2">
                         </div>
 
-                        <!-- Email -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Email"
-                                   class="form-label"></label>
+                        <div class="row g-3 mb-4">
 
-                            <input asp-for="Email"
-                                   class="form-control" />
+                            <!-- Building Number -->
+                            <div class="col-md-6">
+                                <label asp-for="BuildingNumber"
+                                       class="form-label">
+                                    Building Number
+                                </label>
 
-                            <span asp-validation-for="Email"
-                                  class="text-danger"></span>
+                                <input asp-for="BuildingNumber"
+                                       type="number"
+                                       class="form-control"
+                                       placeholder="Building number" />
+
+                                <span asp-validation-for="BuildingNumber"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Street -->
+                            <div class="col-md-6">
+                                <label asp-for="Street"
+                                       class="form-label">
+                                    Street
+                                </label>
+
+                                <input asp-for="Street"
+                                       class="form-control"
+                                       placeholder="Street" />
+
+                                <span asp-validation-for="Street"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- City -->
+                            <div class="col-md-6">
+                                <label asp-for="City"
+                                       class="form-label">
+                                    City
+                                </label>
+
+                                <input asp-for="City"
+                                       class="form-control"
+                                       placeholder="City" />
+
+                                <span asp-validation-for="City"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
                         </div>
 
-                        <!-- Phone -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="PhoneNumber"
-                                   class="form-label"></label>
 
-                            <input asp-for="PhoneNumber"
-                                   class="form-control" />
+                        <!-- ================= Health Record ================= -->
 
-                            <span asp-validation-for="PhoneNumber"
-                                  class="text-danger"></span>
+                        <div class="section-header mb-3">
+                            <h5 class="text-primary fw-bold">
+                                Health Record
+                            </h5>
+                            <hr class="mt-2">
                         </div>
 
-                        <!-- Date of Birth -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="DateOfBirth"
-                                   class="form-label"></label>
+                        <div class="row g-3 mb-4">
 
-                            <input asp-for="DateOfBirth"
-                                   class="form-control"
-                                   type="date" />
+                            <!-- Weight -->
+                            <div class="col-md-6">
+                                <label asp-for="HealthRecord.Weight"
+                                       class="form-label">
+                                    Weight (kg)
+                                </label>
 
-                            <span asp-validation-for="DateOfBirth"
-                                  class="text-danger"></span>
+                                <input asp-for="HealthRecord.Weight"
+                                       type="number"
+                                       step="0.1"
+                                       class="form-control"
+                                       placeholder="Enter weight" />
+
+                                <span asp-validation-for="HealthRecord.Weight"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Height -->
+                            <div class="col-md-6">
+                                <label asp-for="HealthRecord.Hight"
+                                       class="form-label">
+                                    Height (cm)
+                                </label>
+
+                                <input asp-for="HealthRecord.Hight"
+                                       type="number"
+                                       step="0.1"
+                                       class="form-control"
+                                       placeholder="Enter height" />
+
+                                <span asp-validation-for="HealthRecord.Hight"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Blood Type -->
+                            <div class="col-md-6">
+                                <label asp-for="HealthRecord.BloodType"
+                                       class="form-label">
+                                    Blood Type
+                                </label>
+
+                                <input asp-for="HealthRecord.BloodType"
+                                       class="form-control"
+                                       placeholder="e.g. A+" />
+
+                                <span asp-validation-for="HealthRecord.BloodType"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
+                            <!-- Note -->
+                            <div class="col-12">
+                                <label asp-for="HealthRecord.Note"
+                                       class="form-label">
+                                    Notes
+                                </label>
+
+                                <textarea asp-for="HealthRecord.Note"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="Additional health notes...">
+                                </textarea>
+
+                                <span asp-validation-for="HealthRecord.Note"
+                                      class="text-danger">
+                                </span>
+                            </div>
+
                         </div>
 
-                        <!-- Gender -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Gender"
-                                   class="form-label"></label>
 
-                            <select asp-for="Gender"
-                                    class="form-select">
+                        <!-- ================= Buttons ================= -->
 
-                                <option value="">
-                                    -- Select Gender --
-                                </option>
+                        <div class="d-flex justify-content-between mt-4 pt-3 border-top">
 
-                                <option value="Male">
-                                    Male
-                                </option>
+                            <a asp-action="Index"
+                               class="btn btn-outline">
+                                <i class="bi bi-arrow-left me-1"></i>
+                                Cancel
+                            </a>
 
-                                <option value="Female">
-                                    Female
-                                </option>
+                            <button type="submit"
+                                    class="btn btn-fill">
+                                <i class="bi bi-person-plus me-1"></i>
+                                Add Member
+                            </button>
 
-                            </select>
-
-                            <span asp-validation-for="Gender"
-                                  class="text-danger"></span>
                         </div>
 
-                    </div>
-
-                    <!-- Address -->
-                    <div class="section-header mb-3 mt-4">
-                        <h5 class="text-primary fw-bold">
-                            Address Information
-                        </h5>
-                        <hr class="mt-2">
-                    </div>
-
-                    <div class="row g-3">
-
-                        <div class="col-12 col-md-6">
-                            <label asp-for="BuildingNumber"
-                                   class="form-label"></label>
-
-                            <input asp-for="BuildingNumber"
-                                   class="form-control" />
-
-                            <span asp-validation-for="BuildingNumber"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <label asp-for="Street"
-                                   class="form-label"></label>
-
-                            <input asp-for="Street"
-                                   class="form-control" />
-
-                            <span asp-validation-for="Street"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <div class="col-12 col-md-6">
-                            <label asp-for="City"
-                                   class="form-label"></label>
-
-                            <input asp-for="City"
-                                   class="form-control" />
-
-                            <span asp-validation-for="City"
-                                  class="text-danger"></span>
-                        </div>
-
-                    </div>
+                    </form>
 
                 </div>
-
-                <!-- Health Data -->
-                <div class="tab-pane fade"
-                     id="health-info"
-                     role="tabpanel">
-
-                    <div class="row g-3">
-
-                        <!-- Height -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="HealthRecord.Hight"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="HealthRecord.Hight"
-                                   class="form-control" />
-
-                            <span asp-validation-for="HealthRecord.Hight"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <!-- Weight -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="HealthRecord.Weight"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="HealthRecord.Weight"
-                                   class="form-control" />
-
-                            <span asp-validation-for="HealthRecord.Weight"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <!-- Blood Type -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="HealthRecord.BloodType"
-                                   class="form-label">
-                            </label>
-
-                            <select asp-for="HealthRecord.BloodType"
-                                    class="form-select">
-
-                                <option value="">
-                                    Select
-                                </option>
-
-                                <option value="A+">A+</option>
-                                <option value="A-">A-</option>
-                                <option value="B+">B+</option>
-                                <option value="B-">B-</option>
-                                <option value="O+">O+</option>
-                                <option value="O-">O-</option>
-                                <option value="AB+">AB+</option>
-                                <option value="AB-">AB-</option>
-
-                            </select>
-
-                            <span asp-validation-for="HealthRecord.BloodType"
-                                  class="text-danger"></span>
-                        </div>
-
-                        <!-- Note -->
-                        <div class="col-12 col-md-6">
-                            <label asp-for="HealthRecord.Note"
-                                   class="form-label">
-                            </label>
-
-                            <input asp-for="HealthRecord.Note"
-                                   class="form-control" />
-
-                            <span asp-validation-for="HealthRecord.Note"
-                                  class="text-danger"></span>
-                        </div>
-
-                    </div>
-
-                </div>
-
             </div>
 
-            <!-- Buttons -->
-            <footer class="d-flex justify-content-end gap-3 mt-4">
-
-                <a asp-controller="Member"
-                   asp-action="Index"
-                   class="btn btn-outline-secondary px-4">
-
-                    <i class="bi bi-arrow-left me-2"></i>
-                    Back to List
-
-                </a>
-
-                <button type="submit"
-                        class="btn btn-primary px-4">
-
-                    <i class="bi bi-plus-circle me-2"></i>
-                    Add
-
-                </button>
-
-            </footer>
-
-        </form>
-
-    </main>
+        </div>
+    </div>
 </div>
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-
-    <script>
-        document.getElementById('photoInput')
-            .addEventListener('change', function (e) {
-
-                var file = e.target.files[0];
-
-                if (file) {
-
-                    var reader = new FileReader();
-
-                    reader.onload = function (e) {
-
-                        var preview =
-                            document.getElementById('photoPreview');
-
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    };
-
-                    reader.readAsDataURL(file);
-                }
-            });
-    </script>
 }
+
