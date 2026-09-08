@@ -2,7 +2,6 @@
 
 <div class="container">
 
-```
 @* Success Message *@
 @if (TempData["SuccessMessage"] is not null)
 {
@@ -34,13 +33,28 @@
 }
 
 @* Page Header *@
-<header class="d-flex justify-content-end mt-5 mb-4 align-items-center">
-    <a asp-controller="Member"
-       asp-action="CreateMember"
-       class="btn btn-fill fw-medium rounded-pill px-3 py-3">
-        + Add Member
-    </a>
-</header>
+ <header class="d-flex justify-content-between mt-5 mb-4 align-items-center">
+
+                    <div>
+
+                        <h2 class="text-primary-color mb-0">
+                            Our Members
+                        </h2>
+
+                    </div>
+
+
+                    <a asp-controller="Member"
+                       asp-action="CreateMember"
+                       class="btn btn-fill fw-medium rounded-pill px-4 py-3">
+
+                        <i class="bi bi-plus-lg me-2"></i>
+
+                        Add Member
+
+                    </a>
+
+                </header>
 
 
 @if (Model is not null && Model.Any())
@@ -78,7 +92,7 @@
                                 }
                                 else
                                 {
-                                    <img src="~/images/User.jpg"
+                                    <img src="~/images/User.png"
                                          alt="Default Avatar"
                                          class="rounded-circle"
                                          style="width: 40px; height: 40px;" />
