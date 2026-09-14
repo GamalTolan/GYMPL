@@ -1,6 +1,6 @@
 ﻿﻿@{
     ViewData["Title"] = "Home Page";
-    Layout = "~/Views/Shared/_Layout.cshtml"; 
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var analytics = Model as GYMBLL.ViewModels.AnalyticViewModels.AnalyticViewModel;
 }
 
@@ -23,7 +23,7 @@
                 </p>
             </header>
 
-             <!-- ===== STATS BAR ===== -->
+            <!-- ===== STATS BAR ===== -->
             <div class="stats-bar">
                 <div class="row g-0">
                     <div class="col-4">
@@ -67,6 +67,7 @@
                 </div>
             </div>
 
+            <!-- ===== BUTTONS (مرة واحدة بس) ===== -->
             <div class="buttons my-4">
                 <button class="get-started bg-primary-color text-white btn rounded-5 fw-medium px-3 py-2 me-5 border-2 border-primary-color">
                     Get Started
@@ -78,17 +79,7 @@
         </div>
     </div>
 
-            <div class="buttons my-4">
-                <button class="get-started bg-primary-color text-white btn rounded-5 fw-medium px-3 py-2 me-5 border-2 border-primary-color">
-                    Get Started
-                </button>
-                <button class="explore-more border-primary-color btn rounded-5 fw-medium px-3 py-2 border-2 text-primary-color fw-medium">
-                    Explore More
-                </button>
-            </div>
-        </div>
-    </div>
-
+    <!-- ===== HERO IMAGE ===== -->
     <div class="col-md-1 offset-md-2 col-12 order-first order-md-last">
         <div class="character d-md-block d-flex justify-content-center">
             <img src="~/images/Theo Vance.jpg" alt="Theo Vance" />
