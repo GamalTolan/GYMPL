@@ -1,0 +1,74 @@
+﻿@model GYMBLL.ViewModels.MembershipViewModels.CreateMempershipViewModel
+
+@{
+    ViewData["Title"] = "Create Membership";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-lg border-0">
+                <div class="card-header bg-primary text-white py-4">
+                    <h3 class="mb-0">
+                        <i class="bi bi-person-plus me-2"></i>Create New Membership
+                    </h3>
+                </div>
+
+                <div class="card-body p-4">
+                    <form asp-action="Create" method="post">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- ===== MEMBER DROPDOWN ===== -->
+                        <div class="form-floating mb-3">
+                            <select asp-for="MemberId"
+                                    asp-items="@ViewBag.Members"
+                                    class="form-select">
+                                <option value="">-- Select Member --</option>
+                            </select>
+                            <label asp-for="MemberId">
+                                <i class="bi bi-person me-1"></i>Member
+                            </label>
+                            <span asp-validation-for="MemberId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- ===== PLAN DROPDOWN ===== -->
+                        <div class="form-floating mb-3">
+                            <select asp-for="PlanId"
+                                    asp-items="@ViewBag.Plans"
+                                    class="form-select">
+                                <option value="">-- Select Plan --</option>
+                            </select>
+                            <label asp-for="PlanId">
+                                <i class="bi bi-card-list me-1"></i>Plan
+                            </label>
+                            <span asp-validation-for="PlanId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="alert alert-info d-flex align-items-center">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <small>The end date will be calculated automatically based on the plan duration.</small>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-check-circle me-1"></i>Create Membership
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary flex-fill">
+                                <i class="bi bi-arrow-left me-1"></i>Back
+                            </a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
