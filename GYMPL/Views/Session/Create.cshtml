@@ -1,50 +1,63 @@
 ﻿@using GYMBLL.ViewModels.SessionViewModels
 @model CreateSessionViewModel
+
+@{
+    ViewData["Title"] = "Create Session";
+}
+
 <div class="container mt-4">
     <header class="mb-4">
         <h3 class="text-primary-color">Create New Session</h3>
         <p class="text-muted">Schedule a new training session</p>
     </header>
-    
+
     <form asp-action="Create" method="post">
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
 
-                        <!-- Session Information -->
+                        <!-- ===== VALIDATION SUMMARY ===== -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- ===== SESSION INFORMATION ===== -->
                         <div class="section-header mb-3">
                             <h5 class="text-primary fw-bold">Session Information</h5>
                             <hr class="mt-2">
                         </div>
 
                         <div class="row g-3 mb-4">
+
+                            <!-- ===== CATEGORY DROPDOWN ===== -->
                             <div class="col-md-6">
                                 <label asp-for="CategoryId" class="form-label fw-semibold">
                                     Category <span class="text-danger">*</span>
                                 </label>
-                                <select asp-for="CategoryId" class="form-select">
-                                    <option value="">Select Category</option>
-                                    <option value="1">Category 01 </option>
-                                    <option value="2">Category 02 </option>
-                                    <option value="3">Category 03 </option>
+                                <select asp-for="CategoryId" id="categoryDropdown" class="form-select">
+                                    <option value="">-- Select Category --</option>
+                                    @if (ViewBag.Categories is SelectList categories)
+                                    {
+                                        foreach (var category in categories)
+                                        {
+                                            <option value="@category.Value">@category.Text</option>
+                                        }
+                                    }
                                 </select>
                                 <span asp-validation-for="CategoryId" class="text-danger"></span>
                             </div>
 
+                            <!-- ===== TRAINER DROPDOWN  ===== -->
                             <div class="col-md-6">
                                 <label asp-for="TrainerId" class="form-label fw-semibold">
                                     Trainer <span class="text-danger">*</span>
                                 </label>
-                                <select asp-for="TrainerId"  class="form-select">
-                                    <option value="">Select Trainer</option>
-                                    <option value="1">Trainer 01 </option>
-                                    <option value="2">Trainer 02 </option>
-                                    <option value="3">Trainer 03 </option>
+                                <select asp-for="TrainerId" id="trainerDropdown" class="form-select">
+                                    <option value="">-- Select Trainer --</option>
                                 </select>
                                 <span asp-validation-for="TrainerId" class="text-danger"></span>
                             </div>
 
+                            <!-- ===== DESCRIPTION ===== -->
                             <div class="col-12">
                                 <label asp-for="Description" class="form-label fw-semibold">
                                     Description <span class="text-danger">*</span>
@@ -54,40 +67,54 @@
                                 <span asp-validation-for="Description" class="text-danger"></span>
                             </div>
 
+                            <!-- ===== CAPACITY ===== -->
                             <div class="col-md-6">
                                 <label asp-for="Capacity" class="form-label fw-semibold">
                                     Capacity <span class="text-danger">*</span>
                                 </label>
-                                <input asp-for="Capacity" type="number" class="form-control" placeholder="25" min="1" max="25" />
+                                <input asp-for="Capacity" type="number" class="form-control"
+                                       placeholder="25" min="0" max="25" />
                                 <small class="text-muted">Maximum number of participants</small>
                                 <span asp-validation-for="Capacity" class="text-danger d-block"></span>
                             </div>
+
                         </div>
 
-                        <!-- Date & Time -->
+                        <!-- ===== DATE & TIME ===== -->
                         <div class="section-header mb-3">
                             <h5 class="text-primary fw-bold">Date & Time</h5>
                             <hr class="mt-2">
                         </div>
 
                         <div class="row g-3">
+
+                            <!-- ===== START DATE ===== -->
                             <div class="col-md-6">
                                 <label asp-for="StartDate" class="form-label fw-semibold">
                                     Start Date & Time <span class="text-danger">*</span>
                                 </label>
-                                <input asp-for="StartDate" type="datetime" class="form-control" />
+                                <input asp-for="StartDate"
+                                       type="datetime-local"
+                                       class="form-control"
+                                       asp-format="{0:yyyy-MM-ddTHH:mm}" />
                                 <span asp-validation-for="StartDate" class="text-danger"></span>
                             </div>
 
+                            <!-- ===== END DATE ===== -->
                             <div class="col-md-6">
                                 <label asp-for="EndDate" class="form-label fw-semibold">
                                     End Date & Time <span class="text-danger">*</span>
                                 </label>
-                                <input asp-for="EndDate" type="datetime" class="form-control" />
+                                <input asp-for="EndDate"
+                                       type="datetime-local"
+                                       class="form-control"
+                                       asp-format="{0:yyyy-MM-ddTHH:mm}" />
                                 <span asp-validation-for="EndDate" class="text-danger"></span>
                             </div>
+
                         </div>
 
+                        <!-- ===== BUTTONS ===== -->
                         <div class="d-flex justify-content-between mt-4 pt-3 border-top">
                             <a asp-action="Index" class="btn btn-outline">
                                 <i class="bi bi-arrow-left me-1"></i>Cancel
@@ -96,6 +123,7 @@
                                 <i class="bi bi-check-lg me-1"></i>Create Session
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -108,37 +136,86 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+
+            // ===== ELEMENTS =====
+            const categoryDropdown = document.getElementById('categoryDropdown');
+            const trainerDropdown = document.getElementById('trainerDropdown');
             const startInput = document.querySelector('input[name="StartDate"]');
             const endInput = document.querySelector('input[name="EndDate"]');
 
-            if (!startInput || !endInput) return;
+            
+            if (categoryDropdown && trainerDropdown) {
 
-            const now = new Date();
-            const localNow = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
-                .toISOString()
-                .slice(0, 16); // yyyy-MM-ddTHH:mm
+                categoryDropdown.addEventListener('change', function () {
 
-            startInput.min = localNow;
-            endInput.min = localNow;
+                    const categoryId = this.value;
+                    trainerDropdown.innerHTML = '<option value="">-- Loading... --</option>';
 
-            if (!startInput.value || startInput.value.startsWith("0001")) {
-                startInput.value = localNow;
+                    if (!categoryId) {
+                        trainerDropdown.innerHTML = '<option value="">-- Select Trainer --</option>';
+                        return;
+                    }
+
+                    fetch(`/Session/GetTrainersByCategory?categoryId=${categoryId}`)
+                        .then(response => {
+                            if (!response.ok) throw new Error('Network response was not ok');
+                            return response.json();
+                        })
+                        .then(data => {
+                            trainerDropdown.innerHTML = '<option value="">-- Select Trainer --</option>';
+
+                            if (!data || data.length === 0) {
+                                trainerDropdown.innerHTML +=
+                                    '<option value="" disabled>No trainers available for this category</option>';
+                                return;
+                            }
+
+                         
+                            data.forEach(trainer => {
+                                const option = document.createElement('option');
+                                option.value = trainer.id;
+                                option.textContent = trainer.name;
+                                trainerDropdown.appendChild(option);
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error fetching trainers:', error);
+                            trainerDropdown.innerHTML = '<option value="">-- Error loading trainers --</option>';
+                        });
+                });
             }
-            if (!endInput.value || endInput.value.startsWith("0001")) {
-                const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
-                const localOneHourLater = new Date(oneHourLater.getTime() - now.getTimezoneOffset() * 60000)
+
+            if (startInput && endInput) {
+
+                const now = new Date();
+                const localNow = new Date(now.getTime() - now.getTimezoneOffset() * 60000)
                     .toISOString()
                     .slice(0, 16);
-                endInput.value = localOneHourLater;
+
+                startInput.min = localNow;
+                endInput.min = localNow;
+
+                // ✅ قيم افتراضية
+                if (!startInput.value || startInput.value.startsWith("0001")) {
+                    startInput.value = localNow;
+                }
+
+                if (!endInput.value || endInput.value.startsWith("0001")) {
+                    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+                    const localOneHourLater = new Date(oneHourLater.getTime() - now.getTimezoneOffset() * 60000)
+                        .toISOString()
+                        .slice(0, 16);
+                    endInput.value = localOneHourLater;
+                }
+
+                startInput.addEventListener("change", function () {
+                    endInput.min = startInput.value;
+                    if (endInput.value && endInput.value < startInput.value) {
+                        endInput.value = "";
+                    }
+                });
             }
 
-            startInput.addEventListener("change", function () {
-                endInput.min = startInput.value;
-                if (endInput.value && endInput.value < startInput.value) {
-                    endInput.value = "";
-                }
-            });
         });
     </script>
-
 }

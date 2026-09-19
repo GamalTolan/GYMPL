@@ -12,5 +12,6 @@ namespace GYMDAL.Entities
         public Member Member { get; set; } = null!;
         public int SessionId { get; set; }
         public Session Session { get; set; } = null!;
+        public bool IsAttended { get; set; }
     }
 }

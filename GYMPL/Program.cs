@@ -21,12 +21,12 @@ namespace GYMPL
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<GymDbContext>(options =>
              {
-                    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 
              });
 
-            builder.Services.AddScoped < IUnitOfWork , UnitOfWork>();
-            builder.Services.AddScoped < ISessionRepository , SessionRepository>();
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<ISessionRepository, SessionRepository>();
             builder.Services.AddScoped<IAnalyticService, AnalyticService>();
             builder.Services.AddScoped<IMemberService, MemberService>();
             builder.Services.AddScoped<ITrainerService, TrainerService>();
@@ -34,10 +34,12 @@ namespace GYMPL
             builder.Services.AddScoped<ISessionService, SessionService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IMembershipService, MembershipService>();
+            builder.Services.AddScoped<IMemberSessionService, MemberSessionService>();
+           
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 6;
-                options.Password.RequireUppercase= true;
+                options.Password.RequireUppercase = true;
             }).AddEntityFrameworkStores<GymDbContext>();
 
             builder.Services.ConfigureApplicationCookie(options =>
@@ -49,7 +51,7 @@ namespace GYMPL
 
 
             builder.Services.AddAutoMapper(x => x.AddProfile(new MappingaProfile()));
-            
+
 
             var app = builder.Build();
 
@@ -58,10 +60,10 @@ namespace GYMPL
             using var scope = app.Services.CreateScope();
             var gymDbContext = scope.ServiceProvider.GetRequiredService<GymDbContext>();
             var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var userManager =scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             GymDataSeed.DataSeed(gymDbContext);
             IdentityDataSeeding.SeedData(roleManager, userManager);
-            
+
             #endregion
 
             // Configure the HTTP request pipeline.
@@ -80,7 +82,7 @@ namespace GYMPL
             app.MapStaticAssets();
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Account}/{action=Login}")
+                pattern: "{controller=Account}/{action=Login}/{id?}")
                 .WithStaticAssets();
 
             app.Run();

@@ -22,9 +22,9 @@ namespace GYMBLL
                 .ForMember(dest => dest.TrainerName, opt => opt.MapFrom(src => src.Trainer.Name))
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
                 .ForMember(dest => dest.AvailableSlots, opt => opt.Ignore());
-            CreateMap<CreateSessionViewModel, Session>();
+            CreateMap<CreateSessionViewModel, Session>();    
             CreateMap<UpdateSessionViewModel, Session>().ReverseMap();
-            CreateMap<Category, CategorySelectViewModel>();
+            CreateMap<Category, CategorySelectViewModel>().ForMember(d => d.Name, opt => opt.MapFrom(s => s.CategoryName));
             CreateMap<Trainer, TrainerSelectViewModel>();
             
 

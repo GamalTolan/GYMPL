@@ -1,6 +1,12 @@
 ﻿@using GYMBLL.ViewModels.SessionViewModels
 @model IEnumerable<SessionViewModel>
-@if (TempData["SuccessMessage"] != null)
+
+@{
+    ViewData["Title"] = "Training Sessions";
+}
+
+<!-- ===== ALERTS ===== -->
+@if (TempData["SuccessMessage"] is not null)
 {
     <div id="Alert" class="alert alert-success alert-dismissible fade show">
         <i class="bi bi-check-circle-fill me-2"></i>
@@ -8,7 +14,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 }
-else if (TempData["ErrorMessage"] != null)
+else if (TempData["ErrorMessage"] is not null)
 {
     <div id="Alert" class="alert alert-danger alert-dismissible fade show">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
@@ -18,75 +24,198 @@ else if (TempData["ErrorMessage"] != null)
 }
 
 <div class="container">
-    <header class="d-flex justify-content-between mt-5 mb-4 align-items-center">
+
+    <!-- ===== HEADER ===== -->
+    <header class="d-flex justify-content-between mt-5 mb-4 align-items-center flex-wrap gap-3">
         <div>
-            <h2 class="text-primary-color mb-0">Training Sessions</h2>
-            <p class="text-muted">Manage gym training sessions and classes</p>
+            <h2 class="text-primary-color mb-0 fw-bold">Training Sessions</h2>
+            <p class="text-muted mb-0">Manage gym training sessions and classes</p>
         </div>
-        <a asp-controller="Session" asp-action="Create" class="btn btn-fill fw-medium rounded-pill px-4 py-3">
+        <a asp-controller="Session" asp-action="Create"
+           class="btn btn-fill fw-medium rounded-pill px-4 py-3">
             <i class="bi bi-plus-lg me-2"></i>Add Session
         </a>
     </header>
 
-    @if (Model != null && Model.Any())
+    <!-- ===== STATS SUMMARY ===== -->
+    @if (Model is not null && Model.Any())
+    {
+        var upcoming = Model.Count(s => s.Status == "Upcoming");
+        var ongoing = Model.Count(s => s.Status == "Ongoing");
+        var completed = Model.Count(s => s.Status == "Completed");
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-primary text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 opacity-75">Upcoming</h6>
+                            <h3 class="mb-0 fw-bold">@upcoming</h3>
+                        </div>
+                        <i class="bi bi-calendar-plus display-5 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-success text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 opacity-75">Ongoing</h6>
+                            <h3 class="mb-0 fw-bold">@ongoing</h3>
+                        </div>
+                        <i class="bi bi-play-circle display-5 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm bg-secondary text-white">
+                    <div class="card-body d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-1 opacity-75">Completed</h6>
+                            <h3 class="mb-0 fw-bold">@completed</h3>
+                        </div>
+                        <i class="bi bi-check-circle display-5 opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <!-- ===== SESSIONS CARDS ===== -->
+    @if (Model is not null && Model.Any())
     {
         <div class="row g-4">
             @foreach (var session in Model)
             {
+               
+                var headerClass = session.Status switch
+                {
+                    "Ongoing" => "bg-success",
+                    "Upcoming" => "bg-primary",
+                    "Completed" => "bg-secondary",
+                    _ => "bg-dark"
+                };
+
+                var badgeClass = session.Status switch
+                {
+                    "Ongoing" => "bg-success",
+                    "Upcoming" => "bg-primary",
+                    "Completed" => "bg-secondary",
+                    _ => "bg-dark"
+                };
+
+               
+                var usedSlots = session.Capacity - session.AvailableSlots;
+                var capacityPercent = session.Capacity > 0
+                    ? (int)Math.Round((double)usedSlots / session.Capacity * 100)
+                    : 0;
+
+                var capacityBarClass = capacityPercent switch
+                {
+                    >= 90 => "bg-danger",
+                    >= 70 => "bg-warning",
+                    _ => "bg-success"
+                };
+
                 <div class="col-12 col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0 session-card">
-                        <!-- If Session Ongoing  bg-success -->
-                        <!-- If Session Upcoming  bg-primary -->
-                        <!-- If Session Completed  bg-secondary -->
-                        <div class="card-header text-white py-3 ">
+                    <div class="card h-100 shadow-sm border-0 session-card overflow-hidden">
+
+                        <!-- ===== CARD HEADER ===== -->
+                        <div class="card-header text-white py-3 @headerClass border-0">
                             <div class="d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">
+                                <h5 class="mb-0 fw-semibold">
                                     <i class="bi bi-calendar-event me-2"></i>@session.CategoryName
                                 </h5>
-                                <span class="badge bg-light text-dark">@session.Status</span>
+                                <span class="badge bg-white text-dark">@session.Status</span>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <p class="text-muted mb-3">@session.Description</p>
 
+                        <!-- ===== CARD BODY ===== -->
+                        <div class="card-body">
+
+                            <!-- Description -->
+                            <p class="text-muted mb-3 small" style="min-height: 40px;">
+                                @(session.Description?.Length > 80
+                                    ? session.Description.Substring(0, 80) + "..."
+                                    : session.Description)
+                            </p>
+
+                            <!-- Info -->
                             <div class="session-info mb-3">
-                                <div class="info-item mb-2">
+
+                                <div class="info-item mb-2 d-flex align-items-center">
                                     <i class="bi bi-person-circle text-primary-color me-2"></i>
-                                    <strong>Trainer:</strong> @session.TrainerName
+                                    <small><strong>Trainer:</strong> @session.TrainerName</small>
                                 </div>
-                                <div class="info-item mb-2">
+
+                                <div class="info-item mb-2 d-flex align-items-center">
                                     <i class="bi bi-calendar3 text-primary-color me-2"></i>
-                                    <strong>Date:</strong> @session.DateDisplay
+                                    <small><strong>Date:</strong> @session.DateDisplay</small>
                                 </div>
-                                <div class="info-item mb-2">
+
+                                <div class="info-item mb-2 d-flex align-items-center">
                                     <i class="bi bi-clock text-primary-color me-2"></i>
-                                    <strong>Time:</strong> @session.TimeRangeDisplay
+                                    <small><strong>Time:</strong> @session.TimeRangeDisplay</small>
                                 </div>
-                                <div class="info-item mb-2">
+
+                                <div class="info-item mb-2 d-flex align-items-center">
                                     <i class="bi bi-hourglass-split text-primary-color me-2"></i>
-                                    <strong>Duration:</strong> @session.Duration
+                                    <small><strong>Duration:</strong> @session.Duration</small>
                                 </div>
-                                <div class="info-item">
-                                    <i class="bi bi-people text-primary-color me-2"></i>
-                                    <strong>Capacity:</strong> @session.AvailableSlots/@session.Capacity slots
-                                </div>
+
                             </div>
+
+                            <!-- ===== CAPACITY BAR ===== -->
+                            <div class="capacity-section">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <small class="text-muted">
+                                        <i class="bi bi-people me-1"></i>Capacity
+                                    </small>
+                                    <small class="fw-bold">
+                                        @session.AvailableSlots / @session.Capacity
+                                    </small>
+                                </div>
+                                <div class="progress" style="height: 8px;">
+                                    <div class="progress-bar @capacityBarClass"
+                                         role="progressbar"
+                                         style="width: @capacityPercent%"
+                                         aria-valuenow="@capacityPercent"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                    </div>
+                                </div>
+                                <small class="text-muted">
+                                    @usedSlots slot(s) booked
+                                </small>
+                            </div>
+
                         </div>
-                        <div class="card-footer bg-white border-0">
+
+                        <!-- ===== CARD FOOTER ===== -->
+                        <div class="card-footer bg-white border-0 pt-0">
                             <div class="d-grid gap-2">
-                                <a asp-action="Details" asp-route-id="@session.Id" class="btn btn-outline btn-sm">
+
+                                <a asp-action="Details" asp-route-id="@session.Id"
+                                   class="btn btn-outline btn-sm">
                                     <i class="bi bi-eye me-1"></i>View Details
                                 </a>
+
                                 <div class="d-flex gap-2">
-                                    <a asp-action="Edit" asp-route-id="@session.Id" class="btn btn-outline btn-sm flex-fill">
+                                    <a asp-action="Edit" asp-route-id="@session.Id"
+                                       class="btn btn-outline btn-sm flex-fill">
                                         <i class="bi bi-pencil me-1"></i>Edit
                                     </a>
-                                    <a asp-action="Delete" asp-route-id="@session.Id" class="btn btn-outline text-danger btn-sm flex-fill">
+
+                                    <a asp-action="Delete" asp-route-id="@session.Id"
+                                       class="btn btn-outline text-danger btn-sm flex-fill">
                                         <i class="bi bi-trash me-1"></i>Delete
                                     </a>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             }
@@ -94,12 +223,19 @@ else if (TempData["ErrorMessage"] != null)
     }
     else
     {
+        <!-- ===== EMPTY STATE ===== -->
         <div class="text-center py-5">
-            <i class="bi bi-calendar-x display-1 text-muted"></i>
-            <h4 class="mt-3 text-muted">No Sessions Available</h4>
+            <div class="mb-3">
+                <i class="bi bi-calendar-x display-1 text-muted opacity-50"></i>
+            </div>
+            <h4 class="text-muted">No Sessions Available</h4>
             <p class="text-muted">Create your first training session to get started</p>
+            <a asp-action="Create" class="btn btn-fill rounded-pill px-4 py-2 mt-2">
+                <i class="bi bi-plus-lg me-1"></i>Add Session
+            </a>
         </div>
     }
+
 </div>
 
 @section Scripts {

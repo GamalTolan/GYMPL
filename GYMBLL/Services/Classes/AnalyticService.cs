@@ -25,9 +25,9 @@ namespace GYMBLL.Services.Classes
                 TotalMembers = _unitOfWork.GetRepository<Member>().GetAll().Count(),
                 ActiveMembers = _unitOfWork.GetRepository<Membership>().GetAll(x=>x.Status == "Active").Count(),
                 TotalTrainers = _unitOfWork.GetRepository<Trainer>().GetAll().Count(),
-                OngoingSessions = _unitOfWork.GetRepository<Session>().GetAll(x=>x.StartDate <= DateOnly.FromDateTime(DateTime.Now) && x.EndDate >= DateOnly.FromDateTime(DateTime.Now)).Count(),
-                CompletedSessions = _unitOfWork.GetRepository<Session>().GetAll(x=>x.EndDate < DateOnly.FromDateTime(DateTime.Now)).Count(),
-                UpcomingSessions = _unitOfWork.GetRepository<Session>().GetAll(x => x.StartDate > DateOnly.FromDateTime(DateTime.Now)).Count()
+                OngoingSessions = _unitOfWork.GetRepository<Session>().GetAll(x=>x.StartDate <= DateTime.Now && x.EndDate >= DateTime.Now).Count(),
+                CompletedSessions = _unitOfWork.GetRepository<Session>().GetAll(x=>x.EndDate < DateTime.Now).Count(),
+                UpcomingSessions = _unitOfWork.GetRepository<Session>().GetAll(x => x.StartDate > DateTime.Now).Count()
             };
         }
     }
