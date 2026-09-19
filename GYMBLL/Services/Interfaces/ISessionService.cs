@@ -17,5 +17,6 @@ namespace GYMBLL.Services.Interfaces
         bool RemoveSession(int sessionId);
         IEnumerable<CategorySelectViewModel> GetCategoriesDropdown();
         IEnumerable<TrainerSelectViewModel> GetTrainersDropdown();
+        IEnumerable<TrainerSelectViewModel> GetTrainersByCategory(int categoryId);
     }
 }

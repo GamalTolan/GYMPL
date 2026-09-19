@@ -2,6 +2,7 @@
 using GYMBLL.Services.Interfaces;
 using GYMBLL.ViewModels.SessionViewModels;
 using GYMDAL.Entities;
+using GYMDAL.Entities.Enums;
 using GYMDAL.Repositories.Interfaces;
 using System;
 using System.Collections;
@@ -69,8 +70,8 @@ namespace GYMBLL.Services.Classes
 
             session.Description = updateSessionViewModel.Description;
             session.TrainerId = updateSessionViewModel.TrainerId;
-            session.StartDate = DateOnly.FromDateTime(updateSessionViewModel.StartDate);
-            session.EndDate = DateOnly.FromDateTime(updateSessionViewModel.EndDate);
+            session.StartDate =updateSessionViewModel.StartDate;
+            session.EndDate = updateSessionViewModel.EndDate;
             session.UpdatedAt = DateTime.UtcNow;
             unitOfWork.GetRepository<Session>().Update(session);
             return unitOfWork.SaveChanges() > 0;
@@ -107,6 +108,19 @@ namespace GYMBLL.Services.Classes
                 return [];
             return mapper.Map<IEnumerable<TrainerSelectViewModel>>(trainers);
         }
+        public IEnumerable<TrainerSelectViewModel> GetTrainersByCategory(int categoryId)
+        {
+            if (!Enum.IsDefined(typeof(Specialities), categoryId))
+                return [];
+            var speciality = (Specialities)categoryId;
+            var trainers = unitOfWork.GetRepository<Trainer>().GetAll(x => x.Specialities == speciality);
+            if (trainers is null)
+                return [];
+            return mapper.Map<IEnumerable<TrainerSelectViewModel>>(trainers);
+        }
+
+
+
 
         #region HelperMethods
 
@@ -128,7 +142,7 @@ namespace GYMBLL.Services.Classes
             if (session == null)
                 return false;
 
-            if (session.StartDate <= DateOnly.FromDateTime(DateTime.UtcNow) || session.EndDate < DateOnly.FromDateTime(DateTime.UtcNow))
+            if (session.StartDate <= DateTime.UtcNow || session.EndDate < DateTime.UtcNow)
                 return false;
 
             if (unitOfWork.SessionRepository.GetCountOfBookingSlots(session.Id) > 0)
@@ -143,10 +157,10 @@ namespace GYMBLL.Services.Classes
             if (session == null)
                 return false;
 
-            if (session.EndDate > DateOnly.FromDateTime(DateTime.UtcNow))
+            if (session.EndDate > DateTime.Now)
                 return false;
 
-            if (session.StartDate <= DateOnly.FromDateTime(DateTime.UtcNow) && session.EndDate > DateOnly.FromDateTime(DateTime.UtcNow))
+            if (session.StartDate <= DateTime.Now && session.EndDate > DateTime.Now)
                 return false;
 
             if (unitOfWork.SessionRepository.GetCountOfBookingSlots(session.Id) > 0)
@@ -155,9 +169,6 @@ namespace GYMBLL.Services.Classes
             return true;
 
         }
-
-        
-
 
 
 

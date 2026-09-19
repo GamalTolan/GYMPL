@@ -86,7 +86,7 @@ namespace GYMBLL.Services.Classes
             var trainer = _unitOfWork.GetRepository<Trainer>().GetById(id);
             if (trainer == null || HasActiveSessions(id)) 
                 return false;
-            var validSession = _unitOfWork.GetRepository<Session>().GetAll(s => s.TrainerId == id&& s.EndDate > DateOnly.FromDateTime(DateTime.UtcNow));
+            var validSession = _unitOfWork.GetRepository<Session>().GetAll(s => s.TrainerId == id&& s.EndDate > DateTime.UtcNow);
             if (validSession is not null && validSession.Any())
             {
                 return false;
@@ -172,7 +172,7 @@ namespace GYMBLL.Services.Classes
         private bool HasActiveSessions(int Id)
         {
             var activeSessions = _unitOfWork.GetRepository<Session>().GetAll(
-               s => s.TrainerId == Id && s.StartDate > DateOnly.FromDateTime(DateTime.Now)).Any();
+               s => s.TrainerId == Id && s.StartDate > DateTime.Now).Any();
             return activeSessions;
         }
 

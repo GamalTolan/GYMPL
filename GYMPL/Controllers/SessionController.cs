@@ -127,8 +127,22 @@ public class SessionController : Controller
         if (isDeleted)
             TempData["SuccessMessage"] = "Session deleted successfully.";
         else
-            TempData["ErrorMessage"] = "Failed to delete session. Please try again.";
+            TempData["ErrorMessage"] = "You can't delete this session.";
         return RedirectToAction("Index");
+    }
+    [HttpGet]
+    public IActionResult GetTrainersByCategory(int categoryId)
+    {
+        if (categoryId <= 0)
+            return Json(new List<object>());
+
+        var trainers = _sessionService.GetTrainersByCategory(categoryId);
+
+        return Json(trainers.Select(t => new
+        {
+            id = t.Id,
+            name = t.Name
+        }));
     }
     #region Helper Methods
 

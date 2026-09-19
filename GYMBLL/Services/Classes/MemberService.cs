@@ -67,7 +67,7 @@ public class MemberService : IMemberService
         if (member == null)
             return false;
 
-        var activeBooking = _unitOfWork.GetRepository<Booking>().GetAll(x => x.MemberId == id && x.Session.StartDate > DateOnly.FromDateTime(DateTime.UtcNow));
+        var activeBooking = _unitOfWork.GetRepository<Booking>().GetAll(x => x.MemberId == id && x.Session.StartDate > DateTime.UtcNow);
         if (activeBooking.Any())
         {
             return false;

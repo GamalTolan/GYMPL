@@ -1,0 +1,159 @@
+﻿@using GYMBLL.ViewModels.MemberSessionViewModels
+@model IEnumerable<BookingViewModel>
+
+@{
+    ViewData["Title"] = "Session Attendance";
+    var sessionId = ViewBag.SessionId;
+    var sessionCategory = ViewBag.SessionCategory as string;
+    var sessionDate = ViewBag.SessionDate as DateTime?;
+}
+
+<div class="container">
+
+    <!-- ===== ALERTS ===== -->
+    @if (TempData["SuccessMessage"] is not null)
+    {
+        <div id="Alert" class="alert alert-success alert-dismissible fade show">
+            <i class="bi bi-check-circle-fill me-2"></i>
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] is not null)
+    {
+        <div id="Alert" class="alert alert-danger alert-dismissible fade show">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- ===== HEADER ===== -->
+    <header class="bg-success text-white rounded-3 p-4 shadow-sm mt-5 mb-4">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <div>
+                <h2 class="mb-1 fw-semibold">
+                    <i class="bi bi-check-circle-fill me-2"></i>Session Attendance
+                </h2>
+                <p class="mb-0 text-light opacity-75">
+                    @if (!string.IsNullOrEmpty(sessionCategory))
+                    {
+                        <span>@sessionCategory</span>
+                        @if (sessionDate.HasValue)
+                        {
+                            <span> — @sessionDate.Value.ToString("MMM dd, yyyy hh:mm tt")</span>
+                        }
+                    }
+                    else
+                    {
+                        <span>Manage members attendance</span>
+                    }
+                </p>
+            </div>
+            <div class="text-end">
+                <span class="badge bg-light text-dark fs-6">
+                    @Model?.Count() Member(s)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== TABLE ===== -->
+    <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+            @if (Model is not null && Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle text-center">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Member</th>
+                                <th>Phone</th>
+                                <th>Attendance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center justify-content-center gap-2">
+                                            @if (!string.IsNullOrEmpty(item.MemberPhoto))
+                                            {
+                                                <img src="@item.MemberPhoto" alt="@item.MemberName"
+                                                     class="rounded-circle" width="36" height="36" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/User.jpg" alt="Default"
+                                                     class="rounded-circle" width="36" height="36" />
+                                            }
+                                            <span class="fw-semibold">@item.MemberName</span>
+                                        </div>
+                                    </td>
+                                    <td>@item.MemberPhone</td>
+                                    <td>
+                                        @if (item.IsAttended)
+                                        {
+                                            <span class="text-success fw-bold">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Attended
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <form asp-action="MarkAttendance"
+                                                  asp-route-id="@item.Id"
+                                                  asp-route-sessionId="@sessionId"
+                                                  method="post"
+                                                  class="d-inline m-0">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-outline-success btn-sm"
+                                                        onclick="return confirm('Mark this member as attended?');">
+                                                    <i class="bi bi-check-circle me-1"></i> Mark as Attended
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="bi bi-person-workspace display-1 text-muted opacity-50"></i>
+                    <h4 class="mt-3 text-muted">No Members Available</h4>
+                    <p class="text-muted">No bookings found for this session</p>
+                </div>
+            }
+
+        </div>
+    </div>
+
+    <!-- ===== BACK BUTTON ===== -->
+    <div class="mt-4">
+        <a asp-controller="SessionSchedule" asp-action="Index" class="btn btn-outline">
+            <i class="bi bi-arrow-left me-1"></i> Back to Schedule
+        </a>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const alerts = document.querySelectorAll(".alert");
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.style.transition = "opacity 0.5s ease";
+                    alert.style.opacity = "0";
+                    setTimeout(() => alert.remove(), 500);
+                }, 1500);
+            });
+        });
+    </script>
+}

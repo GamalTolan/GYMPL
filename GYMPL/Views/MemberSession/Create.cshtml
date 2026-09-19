@@ -1,0 +1,94 @@
+﻿@using GYMBLL.ViewModels.MemberSessionViewModels
+@model CreateBookingViewModel
+
+@{
+    ViewData["Title"] = "Create Booking";
+    var sessionCategory = ViewBag.SessionCategory as string;
+    var sessionDate = ViewBag.SessionDate as DateTime?;
+    var availableSlots = ViewBag.AvailableSlots as int?;
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-lg border-0">
+
+                <!-- ===== HEADER ===== -->
+                <div class="card-header bg-primary text-white py-4">
+                    <h3 class="mb-0 fw-semibold">
+                        <i class="bi bi-person-plus me-2"></i>New Booking
+                    </h3>
+                    @if (!string.IsNullOrEmpty(sessionCategory))
+                    {
+                        <p class="mb-0 mt-2 text-light opacity-75">
+                            <i class="bi bi-tag me-1"></i>@sessionCategory
+                            @if (sessionDate.HasValue)
+                            {
+                                <span> — @sessionDate.Value.ToString("MMM dd, yyyy hh:mm tt")</span>
+                            }
+                        </p>
+                    }
+                </div>
+
+                <!-- ===== BODY ===== -->
+                <div class="card-body p-4">
+
+                    @if (availableSlots.HasValue)
+                    {
+                        <div class="alert alert-info d-flex align-items-center mb-3">
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                            <small>
+                                <strong>@availableSlots.Value</strong> slot(s) available for this session
+                            </small>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post">
+
+                        @Html.AntiForgeryToken()
+
+                        <!-- Hidden SessionId -->
+                        <input type="hidden" asp-for="SessionId" />
+
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                        <!-- Member Dropdown -->
+                        <div class="form-floating mb-3">
+                            <select asp-for="MemberId"
+                                    asp-items="Model.Members"
+                                    class="form-select">
+                                <option value="">-- Select Member --</option>
+                            </select>
+                            <label asp-for="MemberId">
+                                <i class="bi bi-person me-1"></i>Member
+                            </label>
+                            <span asp-validation-for="MemberId" class="text-danger small"></span>
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary flex-fill">
+                                <i class="bi bi-check-circle me-1"></i>Create Booking
+                            </button>
+
+                            <a asp-action="GetMembersForUpcomingSession"
+                               asp-route-sessionId="@Model.SessionId"
+                               class="btn btn-outline-secondary flex-fill">
+                                <i class="bi bi-arrow-left me-1"></i>Back
+                            </a>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
